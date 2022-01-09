@@ -216,13 +216,13 @@ Shader3D::Shader3D()
     projectionMatrixLocation = 16;
     viewMatrixLocation = 32;
     vertexShader.addUniformVar((GX2UniformVar) {
-            "modelMatrix", GX2_SHADER_VAR_TYPE_MATRIX4X4, 1, modelMatrixLocation, -1
+            "modelMatrix", GX2_SHADER_VAR_TYPE_FLOAT4X4, 1, modelMatrixLocation, -1
     });
     vertexShader.addUniformVar((GX2UniformVar) {
-            "viewMatrix", GX2_SHADER_VAR_TYPE_MATRIX4X4, 1, projectionMatrixLocation, -1
+            "viewMatrix", GX2_SHADER_VAR_TYPE_FLOAT4X4, 1, projectionMatrixLocation, -1
     });
     vertexShader.addUniformVar((GX2UniformVar) {
-            "projectionMatrix", GX2_SHADER_VAR_TYPE_MATRIX4X4, 1, viewMatrixLocation, -1
+            "projectionMatrix", GX2_SHADER_VAR_TYPE_FLOAT4X4, 1, viewMatrixLocation, -1
     });
 
     positionLocation = 0;

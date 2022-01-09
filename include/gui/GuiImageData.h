@@ -40,11 +40,11 @@ public:
     void loadImage(const uint8_t *img, int32_t imgSize, GX2TexClampMode textureClamp = GX2_TEX_CLAMP_MODE_CLAMP, GX2SurfaceFormat textureFormat = GX2_SURFACE_FORMAT_UNORM_R8_G8_B8_A8);
 
     //! getter functions
-    const GX2Texture *getTexture() const {
+    virtual const GX2Texture *getTexture() const {
         return texture;
     };
 
-    const GX2Sampler *getSampler() const {
+    virtual const GX2Sampler *getSampler() const {
         return sampler;
     };
 
