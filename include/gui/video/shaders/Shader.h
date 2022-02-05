@@ -19,11 +19,11 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <gx2/shaders.h>
-#include <gx2/mem.h>
-#include <gx2/enum.h>
-#include <gx2/registers.h>
 #include <gx2/draw.h>
+#include <gx2/enum.h>
+#include <gx2/mem.h>
+#include <gx2/registers.h>
+#include <gx2/shaders.h>
 #include <malloc.h>
 
 class Shader {
@@ -33,9 +33,9 @@ protected:
     virtual ~Shader() {}
 
 public:
-    static const uint16_t cuVertexAttrSize = sizeof(float) * 3;
+    static const uint16_t cuVertexAttrSize   = sizeof(float) * 3;
     static const uint16_t cuTexCoordAttrSize = sizeof(float) * 2;
-    static const uint16_t cuColorAttrSize = sizeof(uint8_t) * 4;
+    static const uint16_t cuColorAttrSize    = sizeof(uint8_t) * 4;
 
     static void setLineWidth(const float &width) {
         GX2SetLineWidth(width);

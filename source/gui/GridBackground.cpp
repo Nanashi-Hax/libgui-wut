@@ -1,25 +1,25 @@
+#include "utils/utils.h"
 #include <gui/GridBackground.h>
 #include <gui/video/CVideo.h>
 #include <gui/video/shaders/Shader3D.h>
-#include "utils/utils.h"
 
-static const float bgRepeat = 1000.0f;
+static const float bgRepeat    = 1000.0f;
 static const float bgTexRotate = 39.0f;
 
 GridBackground::GridBackground(GuiImageData *img)
-        : GuiImage(img) {
-    colorIntensity = glm::vec4(1.0f, 1.0f, 1.0f, 0.9f);
-    alphaFadeOut = glm::vec4(0.0f);
+    : GuiImage(img) {
+    colorIntensity  = glm::vec4(1.0f, 1.0f, 1.0f, 0.9f);
+    alphaFadeOut    = glm::vec4(0.0f);
     distanceFadeOut = 0.15f;
 
     vtxCount = 4;
 
     //! texture and vertex coordinates
-    float *m_posVtxs = (float *) memalign(GX2_VERTEX_BUFFER_ALIGNMENT, vtxCount * Shader3D::cuVertexAttrSize);
+    float *m_posVtxs   = (float *) memalign(GX2_VERTEX_BUFFER_ALIGNMENT, vtxCount * Shader3D::cuVertexAttrSize);
     float *m_texCoords = (float *) memalign(GX2_VERTEX_BUFFER_ALIGNMENT, vtxCount * Shader3D::cuTexCoordAttrSize);
 
     if (m_posVtxs) {
-        int32_t i = 0;
+        int32_t i      = 0;
         m_posVtxs[i++] = -1.0f;
         m_posVtxs[i++] = 0.0f;
         m_posVtxs[i++] = 1.0f;
@@ -49,13 +49,11 @@ GridBackground::GridBackground(GuiImageData *img)
         const float cosRot = cosf(DegToRad(bgTexRotate));
         const float sinRot = sinf(DegToRad(bgTexRotate));
 
-        glm::mat2 texRotateMtx({
-                                       cosRot, -sinRot,
-                                       sinRot, cosRot
-                               });
+        glm::mat2 texRotateMtx({cosRot, -sinRot,
+                                sinRot, cosRot});
 
         for (int32_t i = 0; i < 4; i++) {
-            texCoordVec[i] = texRotateMtx * texCoordVec[i];
+            texCoordVec[i]         = texRotateMtx * texCoordVec[i];
             m_texCoords[i * 2 + 0] = texCoordVec[i][0];
             m_texCoords[i * 2 + 1] = texCoordVec[i][1];
         }
@@ -64,7 +62,7 @@ GridBackground::GridBackground(GuiImageData *img)
     }
 
     //! assign to internal variables which are const but oh well
-    posVtxs = m_posVtxs;
+    posVtxs   = m_posVtxs;
     texCoords = m_texCoords;
 }
 

@@ -17,16 +17,16 @@
 #ifndef __CVIDEO_H_
 #define __CVIDEO_H_
 
-#include <gx2/sampler.h>
-#include <gx2/draw.h>
-#include <gx2/registers.h>
-#include <gx2/context.h>
-#include <gx2/clear.h>
-#include <gx2/swap.h>
-#include <gx2/state.h>
-#include <gx2/event.h>
-#include <gx2/display.h>
 #include <gui/gx2_ext.h>
+#include <gx2/clear.h>
+#include <gx2/context.h>
+#include <gx2/display.h>
+#include <gx2/draw.h>
+#include <gx2/event.h>
+#include <gx2/registers.h>
+#include <gx2/sampler.h>
+#include <gx2/state.h>
+#include <gx2/swap.h>
 
 #include <gui/video/shaders/Shader.h>
 
@@ -38,15 +38,15 @@ public:
 
     void prepareTvRendering(void) {
         currContextState = tvContextState;
-        currColorBuffer = &tvColorBuffer;
-        currDepthBuffer = &tvDepthBuffer;
+        currColorBuffer  = &tvColorBuffer;
+        currDepthBuffer  = &tvDepthBuffer;
         prepareRendering();
     }
 
     void prepareDrcRendering(void) {
         currContextState = drcContextState;
-        currColorBuffer = &drcColorBuffer;
-        currDepthBuffer = &drcDepthBuffer;
+        currColorBuffer  = &drcColorBuffer;
+        currDepthBuffer  = &drcDepthBuffer;
         prepareRendering();
     }
 
@@ -156,7 +156,7 @@ public:
         glm::vec4 rayStart(posX, posY, 0.0f, 1.0f);
         glm::vec4 rayEnd(posX, posY, 1.0f, 1.0f);
 
-        glm::mat4 IMV = glm::inverse(projectionMtx * viewMtx);
+        glm::mat4 IMV           = glm::inverse(projectionMtx * viewMtx);
         glm::vec4 rayStartWorld = IMV * rayStart;
         rayStartWorld /= rayStartWorld.w;
 
@@ -166,7 +166,7 @@ public:
         glm::vec3 rayDirectionWorld(rayEndWorld - rayStartWorld);
         rayDirectionWorld = glm::normalize(rayDirectionWorld);
 
-        rayOrigin = glm::vec3(rayStartWorld);
+        rayOrigin    = glm::vec3(rayStartWorld);
         rayDirection = glm::normalize(rayDirectionWorld);
     }
 

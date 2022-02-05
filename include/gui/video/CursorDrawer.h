@@ -19,8 +19,8 @@
 
 #include <string>
 
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 
 class CursorDrawer {
 

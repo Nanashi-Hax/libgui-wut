@@ -15,41 +15,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
 #include <gui/GuiButton.h>
-#include <gui/GuiTrigger.h>
 #include <gui/GuiController.h>
+#include <gui/GuiTrigger.h>
 
 /**
  * Constructor for the GuiButton class.
  */
 
 GuiButton::GuiButton(float w, float h) {
-    width = w;
-    height = h;
-    image = NULL;
-    imageOver = NULL;
-    imageHold = NULL;
+    width      = w;
+    height     = h;
+    image      = NULL;
+    imageOver  = NULL;
+    imageHold  = NULL;
     imageClick = NULL;
-    icon = NULL;
-    iconOver = NULL;
+    icon       = NULL;
+    iconOver   = NULL;
 
     for (int32_t i = 0; i < 4; i++) {
-        label[i] = NULL;
-        labelOver[i] = NULL;
-        labelHold[i] = NULL;
+        label[i]      = NULL;
+        labelOver[i]  = NULL;
+        labelHold[i]  = NULL;
         labelClick[i] = NULL;
     }
     for (int32_t i = 0; i < iMaxGuiTriggers; i++) {
         trigger[i] = NULL;
     }
 
-    soundOver = NULL;
-    soundHold = NULL;
-    soundClick = NULL;
+    soundOver      = NULL;
+    soundHold      = NULL;
+    soundClick     = NULL;
     clickedTrigger = NULL;
-    heldTrigger = NULL;
-    selectable = true;
-    holdable = false;
-    clickable = true;
+    heldTrigger    = NULL;
+    selectable     = true;
+    holdable       = false;
+    clickable      = true;
 }
 
 /**
@@ -135,7 +135,7 @@ void GuiButton::setTrigger(GuiTrigger *t, int32_t idx) {
 
 void GuiButton::resetState(void) {
     clickedTrigger = NULL;
-    heldTrigger = NULL;
+    heldTrigger    = NULL;
     GuiElement::resetState();
 }
 
@@ -193,7 +193,7 @@ void GuiButton::update(GuiController *c) {
 
                 if (effectsOver && !effects) {
                     // initiate effects
-                    effects = effectsOver;
+                    effects      = effectsOver;
                     effectAmount = effectAmountOver;
                     effectTarget = effectTargetOver;
                 }
@@ -206,7 +206,7 @@ void GuiButton::update(GuiController *c) {
 
             if (effectTarget == effectTargetOver && effectAmount == effectAmountOver) {
                 // initiate effects (in reverse)
-                effects = effectsOver;
+                effects      = effectsOver;
                 effectAmount = -effectAmountOver;
                 effectTarget = 100;
             }
@@ -223,8 +223,7 @@ void GuiButton::update(GuiController *c) {
 
             int32_t isClicked = trigger[i]->clicked(c);
 
-            if (!clickedTrigger && (isClicked != GuiTrigger::CLICKED_NONE)
-                && (trigger[i]->isClickEverywhere() || (isStateSet(STATE_SELECTED | STATE_OVER, c->chanIdx) && trigger[i]->isSelectionClickEverywhere()) || this->isInside(c->data.x, c->data.y))) {
+            if (!clickedTrigger && (isClicked != GuiTrigger::CLICKED_NONE) && (trigger[i]->isClickEverywhere() || (isStateSet(STATE_SELECTED | STATE_OVER, c->chanIdx) && trigger[i]->isSelectionClickEverywhere()) || this->isInside(c->data.x, c->data.y))) {
                 if (soundClick) {
                     soundClick->Play();
                 }
@@ -253,8 +252,7 @@ void GuiButton::update(GuiController *c) {
         if (holdable) {
             bool isHeld = trigger[i]->held(c);
 
-            if ((!heldTrigger || heldTrigger == trigger[i]) && isHeld
-                && (trigger[i]->isHoldEverywhere() || (isStateSet(STATE_SELECTED | STATE_OVER, c->chanIdx) && trigger[i]->isSelectionClickEverywhere()) || this->isInside(c->data.x, c->data.y))) {
+            if ((!heldTrigger || heldTrigger == trigger[i]) && isHeld && (trigger[i]->isHoldEverywhere() || (isStateSet(STATE_SELECTED | STATE_OVER, c->chanIdx) && trigger[i]->isSelectionClickEverywhere()) || this->isInside(c->data.x, c->data.y))) {
                 heldTrigger = trigger[i];
 
                 if (!isStateSet(STATE_HELD, c->chanIdx)) {

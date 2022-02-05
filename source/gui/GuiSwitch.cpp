@@ -14,16 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
-#include <gui/GuiSwitch.h>
 #include <gui/GuiImage.h>
 #include <gui/GuiImageData.h>
+#include <gui/GuiSwitch.h>
 
 /**
  * Constructor for the GuiSwitch class.
  */
 
 GuiSwitch::GuiSwitch(GuiImage *background, bool checked, float w, float h)
-        : GuiToggle(checked, w, h) {
+    : GuiToggle(checked, w, h) {
     setImageBackground(background);
 }
 
@@ -31,7 +31,6 @@ GuiSwitch::GuiSwitch(GuiImage *background, bool checked, float w, float h)
  * Destructor for the GuiSwitch class.
  */
 GuiSwitch::~GuiSwitch() {
-
 }
 
 void GuiSwitch::setImageBackground(GuiImage *img) {

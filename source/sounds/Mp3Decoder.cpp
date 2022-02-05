@@ -23,20 +23,20 @@
  *
  * for WiiXplorer 2010
  ***************************************************************************/
-#include <string>
-#include <string.h>
+#include "fs/CFile.hpp"
+#include <coreinit/thread.h>
+#include <coreinit/time.h>
+#include <gui/sounds/Mp3Decoder.hpp>
 #include <limits.h>
-#include <unistd.h>
 #include <malloc.h>
 #include <math.h>
-#include <coreinit/time.h>
-#include <coreinit/thread.h>
-#include <gui/sounds/Mp3Decoder.hpp>
-#include "fs/CFile.hpp"
+#include <string.h>
+#include <string>
+#include <unistd.h>
 
 Mp3Decoder::Mp3Decoder(const char *filepath)
-        : SoundDecoder(filepath) {
-    SoundType = SOUND_MP3;
+    : SoundDecoder(filepath) {
+    SoundType  = SOUND_MP3;
     ReadBuffer = NULL;
     mad_timer_reset(&Timer);
     mad_stream_init(&Stream);
@@ -51,8 +51,8 @@ Mp3Decoder::Mp3Decoder(const char *filepath)
 }
 
 Mp3Decoder::Mp3Decoder(const uint8_t *snd, int32_t len)
-        : SoundDecoder(snd, len) {
-    SoundType = SOUND_MP3;
+    : SoundDecoder(snd, len) {
+    SoundType  = SOUND_MP3;
     ReadBuffer = NULL;
     mad_timer_reset(&Timer);
     mad_stream_init(&Stream);
@@ -82,7 +82,7 @@ Mp3Decoder::~Mp3Decoder() {
 }
 
 void Mp3Decoder::OpenFile() {
-    GuardPtr = NULL;
+    GuardPtr   = NULL;
     ReadBuffer = (uint8_t *) memalign(32, SoundBlockSize * SoundBlocks);
     if (!ReadBuffer) {
         if (file_fd) {
@@ -103,7 +103,7 @@ void Mp3Decoder::OpenFile() {
     }
 
     SampleRate = (uint32_t) Frame.header.samplerate;
-    Format = ((MAD_NCHANNELS(&Frame.header) == 2) ? (FORMAT_PCM_16_BIT | CHANNELS_STEREO) : (FORMAT_PCM_16_BIT | CHANNELS_MONO));
+    Format     = ((MAD_NCHANNELS(&Frame.header) == 2) ? (FORMAT_PCM_16_BIT | CHANNELS_STEREO) : (FORMAT_PCM_16_BIT | CHANNELS_MONO));
     Rewind();
 }
 
@@ -170,8 +170,8 @@ int32_t Mp3Decoder::Read(uint8_t *buffer, int32_t buffer_size, int32_t pos) {
 
         if (Stream.buffer == NULL || Stream.error == MAD_ERROR_BUFLEN) {
             uint8_t *ReadStart = ReadBuffer;
-            int32_t ReadSize = SoundBlockSize * SoundBlocks;
-            int32_t Remaining = 0;
+            int32_t ReadSize   = SoundBlockSize * SoundBlocks;
+            int32_t Remaining  = 0;
 
             if (Stream.next_frame != NULL) {
                 Remaining = Stream.bufend - Stream.next_frame;

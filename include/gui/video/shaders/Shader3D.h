@@ -17,9 +17,9 @@
 #ifndef SHADER_3D_H_
 #define SHADER_3D_H_
 
-#include <gui/video/shaders/VertexShader.h>
-#include <gui/video/shaders/PixelShader.h>
 #include <gui/video/shaders/FetchShader.h>
+#include <gui/video/shaders/PixelShader.h>
+#include <gui/video/shaders/VertexShader.h>
 
 class Shader3D : public Shader {
 private:
@@ -30,8 +30,8 @@ private:
     static Shader3D *shaderInstance;
 
     static const unsigned char cuAttributeCount = 2;
-    static const uint32_t ciPositionVtxsSize = 4 * cuVertexAttrSize;
-    static const uint32_t ciTexCoordsVtxsSize = 4 * cuTexCoordAttrSize;
+    static const uint32_t ciPositionVtxsSize    = 4 * cuVertexAttrSize;
+    static const uint32_t ciTexCoordsVtxsSize   = 4 * cuTexCoordAttrSize;
 
     FetchShader *fetchShader;
     VertexShader vertexShader;
@@ -50,6 +50,7 @@ private:
     uint32_t fadeDistanceLocation;
     uint32_t fadeOutLocation;
     uint32_t samplerLocation;
+
 public:
     static Shader3D *instance() {
         if (!shaderInstance) {

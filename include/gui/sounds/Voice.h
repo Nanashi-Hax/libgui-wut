@@ -17,12 +17,11 @@
 #ifndef _AXSOUND_H_
 #define _AXSOUND_H_
 
-#include <sndcore2/voice.h>
 #include <sndcore2/core.h>
+#include <sndcore2/voice.h>
 
 class Voice {
 public:
-
     enum VoicePriorities {
         PRIO_MIN = 1,
         PRIO_MAX = 31
@@ -36,9 +35,9 @@ public:
     };
 
     Voice(int32_t prio)
-            : state(STATE_STOPPED) {
+        : state(STATE_STOPPED) {
         lastLoopCounter = 0;
-        nextBufferSize = 0;
+        nextBufferSize  = 0;
 
         voice = AXAcquireVoice(prio, 0, 0);
         if (voice) {
@@ -50,9 +49,9 @@ public:
             AXVoiceDeviceMixData mix[6];
             memset(mix, 0, sizeof(mix));
             mix[0].bus[0].volume = 0x8000;
-            mix[0].bus[0].delta = 0;
+            mix[0].bus[0].delta  = 0;
             mix[1].bus[0].volume = 0x8000;
-            mix[1].bus[0].delta = 0;
+            mix[1].bus[0].delta  = 0;
 
             AXSetVoiceDeviceMix(voice, 0, 0, mix);
             AXSetVoiceDeviceMix(voice, 1, 0, mix);
@@ -74,13 +73,13 @@ public:
 
         memset(&voiceBuffer, 0, sizeof(voiceBuffer));
 
-        voiceBuffer.data = buffer;
-        voiceBuffer.dataType = format;
+        voiceBuffer.data           = buffer;
+        voiceBuffer.dataType       = format;
         voiceBuffer.loopingEnabled = (nextBuffer == NULL) ? 0 : 1;
-        voiceBuffer.currentOffset = 0;
-        voiceBuffer.endOffset = (bufferSize >> 1) - 1;
-        voiceBuffer.loopOffset = ((nextBuffer - buffer) >> 1);
-        nextBufferSize = nextBufSize;
+        voiceBuffer.currentOffset  = 0;
+        voiceBuffer.endOffset      = (bufferSize >> 1) - 1;
+        voiceBuffer.loopOffset     = ((nextBuffer - buffer) >> 1);
+        nextBufferSize             = nextBufSize;
 
         // TODO: handle support for 3.1.0 with dynamic libs instead of static linking it
         //uint32_t samplesPerSec = (AXGetInputSamplesPerSec != 0) ? AXGetInputSamplesPerSec() : 32000;
@@ -105,7 +104,7 @@ public:
         if (voice) {
             AXVoiceVeData data;
             data.volume = vol >> 16;
-            data.delta = vol & 0xFFFF;
+            data.delta  = vol & 0xFFFF;
             AXSetVoiceVe(voice, &data);
         }
     }
@@ -113,7 +112,7 @@ public:
 
     void setNextBuffer(const uint8_t *buffer, uint32_t bufferSize) {
         voiceBuffer.loopOffset = ((buffer - (const uint8_t *) voiceBuffer.data) >> 1);
-        nextBufferSize = bufferSize;
+        nextBufferSize         = bufferSize;
 
         AXSetVoiceLoopOffset(voice, voiceBuffer.loopOffset);
     }

@@ -17,9 +17,9 @@
 #ifndef GUI_CHECKBOX_H_
 #define GUI_CHECKBOX_H_
 
-#include <gui/GuiToggle.h>
 #include <gui/GuiImage.h>
 #include <gui/GuiImageData.h>
+#include <gui/GuiToggle.h>
 
 //!A simple CheckBox
 class GuiCheckBox : public GuiToggle {
@@ -38,8 +38,8 @@ public:
     void setImageHighlighted(GuiImage *img);
 
 protected:
-    GuiImage *backgroundImg = NULL;
-    GuiImage *selectedImg = NULL;
+    GuiImage *backgroundImg  = NULL;
+    GuiImage *selectedImg    = NULL;
     GuiImage *highlightedImg = NULL;
 
     void update(GuiController *c);

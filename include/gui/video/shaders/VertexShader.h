@@ -17,14 +17,14 @@
 #ifndef VERTEX_SHADER_H
 #define VERTEX_SHADER_H
 
-#include <string.h>
-#include <gui/video/shaders/Shader.h>
 #include <gui/gx2_ext.h>
+#include <gui/video/shaders/Shader.h>
+#include <string.h>
 
 class VertexShader : public Shader {
 public:
     VertexShader(uint32_t numAttr)
-            : attributesCount(numAttr), attributes(new GX2AttribStream[attributesCount]), vertexShader((GX2VertexShader *) memalign(0x40, sizeof(GX2VertexShader))) {
+        : attributesCount(numAttr), attributes(new GX2AttribStream[attributesCount]), vertexShader((GX2VertexShader *) memalign(0x40, sizeof(GX2VertexShader))) {
         if (vertexShader) {
             memset(vertexShader, 0, sizeof(GX2VertexShader));
             vertexShader->mode = GX2_SHADER_MODE_UNIFORM_REGISTER;
@@ -89,7 +89,7 @@ public:
         }
 
         //! this must be moved into an area where the graphic engine has access to and must be aligned to 0x100
-        vertexShader->size = programSize;
+        vertexShader->size    = programSize;
         vertexShader->program = (uint8_t *) memalign(GX2_SHADER_PROGRAM_ALIGNMENT, vertexShader->size);
         if (vertexShader->program) {
             memcpy(vertexShader->program, program, vertexShader->size);

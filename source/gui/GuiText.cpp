@@ -14,69 +14,68 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
-#include <gui/GuiText.h>
 #include <gui/FreeTypeGX.h>
+#include <gui/GuiText.h>
 #include <gui/video/CVideo.h>
 
 FreeTypeGX *GuiText::presentFont = NULL;
-int32_t GuiText::presetSSAA = 2;
-int32_t GuiText::presetSize = 28;
-int32_t GuiText::presetMaxWidth = 0xFFFF;
+int32_t GuiText::presetSSAA      = 2;
+int32_t GuiText::presetSize      = 28;
+int32_t GuiText::presetMaxWidth  = 0xFFFF;
 int32_t GuiText::presetAlignment = ALIGN_CENTER | ALIGN_MIDDLE;
-GX2ColorF32 GuiText::presetColor = (GX2ColorF32) {
-        1.0f, 1.0f, 1.0f, 1.0f
-};
+GX2ColorF32 GuiText::presetColor = (GX2ColorF32){
+        1.0f, 1.0f, 1.0f, 1.0f};
 
-#define TEXT_SCROLL_DELAY            6
-#define TEXT_SCROLL_INITIAL_DELAY    10
-#define MAX_LINES_TO_DRAW            10
+#define TEXT_SCROLL_DELAY         6
+#define TEXT_SCROLL_INITIAL_DELAY 10
+#define MAX_LINES_TO_DRAW         10
 
 /**
  * Constructor for the GuiText class.
  */
 
 GuiText::GuiText() {
-    text = NULL;
-    currentSize = presetSize;
-    color = glm::vec4(presetColor.r, presetColor.g, presetColor.b, presetColor.a);
-    alpha = presetColor.a;
-    alignment = presetAlignment;
-    maxWidth = presetMaxWidth;
-    internalSSAA = presetSSAA;
-    wrapMode = 0;
-    font = presentFont;
-    linestodraw = MAX_LINES_TO_DRAW;
-    textScrollPos = 0;
+    text                   = NULL;
+    currentSize            = presetSize;
+    color                  = glm::vec4(presetColor.r, presetColor.g, presetColor.b, presetColor.a);
+    alpha                  = presetColor.a;
+    alignment              = presetAlignment;
+    maxWidth               = presetMaxWidth;
+    internalSSAA           = presetSSAA;
+    wrapMode               = 0;
+    font                   = presentFont;
+    linestodraw            = MAX_LINES_TO_DRAW;
+    textScrollPos          = 0;
     textScrollInitialDelay = TEXT_SCROLL_INITIAL_DELAY;
-    textScrollDelay = TEXT_SCROLL_DELAY;
-    defaultBlur = 4.0f;
-    blurGlowIntensity = 0.0f;
-    blurAlpha = 0.0f;
-    blurGlowColor = glm::vec4(0.0f);
-    width = 0;
-    height = 0;
+    textScrollDelay        = TEXT_SCROLL_DELAY;
+    defaultBlur            = 4.0f;
+    blurGlowIntensity      = 0.0f;
+    blurAlpha              = 0.0f;
+    blurGlowColor          = glm::vec4(0.0f);
+    width                  = 0;
+    height                 = 0;
 }
 
 GuiText::GuiText(const char *t, int32_t s, const glm::vec4 &c) {
-    text = NULL;
-    currentSize = s;
-    color = c;
-    alpha = c[3];
-    alignment = ALIGN_CENTER | ALIGN_MIDDLE;
-    maxWidth = presetMaxWidth;
-    internalSSAA = presetSSAA;
-    wrapMode = 0;
-    font = presentFont;
-    linestodraw = MAX_LINES_TO_DRAW;
-    textScrollPos = 0;
+    text                   = NULL;
+    currentSize            = s;
+    color                  = c;
+    alpha                  = c[3];
+    alignment              = ALIGN_CENTER | ALIGN_MIDDLE;
+    maxWidth               = presetMaxWidth;
+    internalSSAA           = presetSSAA;
+    wrapMode               = 0;
+    font                   = presentFont;
+    linestodraw            = MAX_LINES_TO_DRAW;
+    textScrollPos          = 0;
     textScrollInitialDelay = TEXT_SCROLL_INITIAL_DELAY;
-    textScrollDelay = TEXT_SCROLL_DELAY;
-    defaultBlur = 4.0f;
-    blurGlowIntensity = 0.0f;
-    blurAlpha = 0.0f;
-    blurGlowColor = glm::vec4(0.0f);
-    width = 0;
-    height = 0;
+    textScrollDelay        = TEXT_SCROLL_DELAY;
+    defaultBlur            = 4.0f;
+    blurGlowIntensity      = 0.0f;
+    blurAlpha              = 0.0f;
+    blurGlowColor          = glm::vec4(0.0f);
+    width                  = 0;
+    height                 = 0;
 
     if (t) {
         textMutex.lock();
@@ -86,29 +85,29 @@ GuiText::GuiText(const char *t, int32_t s, const glm::vec4 &c) {
 }
 
 GuiText::GuiText(const wchar_t *t, int32_t s, const glm::vec4 &c) {
-    text = NULL;
-    currentSize = s;
-    color = c;
-    alpha = c[3];
-    alignment = ALIGN_CENTER | ALIGN_MIDDLE;
-    maxWidth = presetMaxWidth;
-    internalSSAA = presetSSAA;
-    wrapMode = 0;
-    font = presentFont;
-    linestodraw = MAX_LINES_TO_DRAW;
-    textScrollPos = 0;
+    text                   = NULL;
+    currentSize            = s;
+    color                  = c;
+    alpha                  = c[3];
+    alignment              = ALIGN_CENTER | ALIGN_MIDDLE;
+    maxWidth               = presetMaxWidth;
+    internalSSAA           = presetSSAA;
+    wrapMode               = 0;
+    font                   = presentFont;
+    linestodraw            = MAX_LINES_TO_DRAW;
+    textScrollPos          = 0;
     textScrollInitialDelay = TEXT_SCROLL_INITIAL_DELAY;
-    textScrollDelay = TEXT_SCROLL_DELAY;
-    defaultBlur = 4.0f;
-    blurGlowIntensity = 0.0f;
-    blurAlpha = 0.0f;
-    blurGlowColor = glm::vec4(0.0f);
-    width = 0;
-    height = 0;
+    textScrollDelay        = TEXT_SCROLL_DELAY;
+    defaultBlur            = 4.0f;
+    blurGlowIntensity      = 0.0f;
+    blurAlpha              = 0.0f;
+    blurGlowColor          = glm::vec4(0.0f);
+    width                  = 0;
+    height                 = 0;
 
     if (t) {
         textMutex.lock();
-        text = new(std::nothrow) wchar_t[wcslen(t) + 1];
+        text = new (std::nothrow) wchar_t[wcslen(t) + 1];
         if (!text) {
             textMutex.unlock();
             return;
@@ -123,25 +122,25 @@ GuiText::GuiText(const wchar_t *t, int32_t s, const glm::vec4 &c) {
  * Constructor for the GuiText class, uses presets
  */
 GuiText::GuiText(const char *t) {
-    text = NULL;
-    currentSize = presetSize;
-    color = glm::vec4(presetColor.r, presetColor.g, presetColor.b, presetColor.a);
-    alpha = presetColor.a;
-    alignment = presetAlignment;
-    maxWidth = presetMaxWidth;
-    internalSSAA = presetSSAA;
-    wrapMode = 0;
-    font = presentFont;
-    linestodraw = MAX_LINES_TO_DRAW;
-    textScrollPos = 0;
+    text                   = NULL;
+    currentSize            = presetSize;
+    color                  = glm::vec4(presetColor.r, presetColor.g, presetColor.b, presetColor.a);
+    alpha                  = presetColor.a;
+    alignment              = presetAlignment;
+    maxWidth               = presetMaxWidth;
+    internalSSAA           = presetSSAA;
+    wrapMode               = 0;
+    font                   = presentFont;
+    linestodraw            = MAX_LINES_TO_DRAW;
+    textScrollPos          = 0;
     textScrollInitialDelay = TEXT_SCROLL_INITIAL_DELAY;
-    textScrollDelay = TEXT_SCROLL_DELAY;
-    defaultBlur = 4.0f;
-    blurGlowIntensity = 0.0f;
-    blurAlpha = 0.0f;
-    blurGlowColor = glm::vec4(0.0f);
-    width = 0;
-    height = 0;
+    textScrollDelay        = TEXT_SCROLL_DELAY;
+    defaultBlur            = 4.0f;
+    blurGlowIntensity      = 0.0f;
+    blurAlpha              = 0.0f;
+    blurGlowColor          = glm::vec4(0.0f);
+    width                  = 0;
+    height                 = 0;
 
     if (t) {
         textMutex.lock();
@@ -174,7 +173,7 @@ void GuiText::setText(const char *t) {
 
     clearDynamicText();
 
-    textScrollPos = 0;
+    textScrollPos          = 0;
     textScrollInitialDelay = TEXT_SCROLL_INITIAL_DELAY;
 
     if (t) {
@@ -190,7 +189,7 @@ void GuiText::setTextf(const char *format, ...) {
     }
 
     int32_t max_len = strlen(format) + 8192;
-    char *tmp = new(std::nothrow) char[max_len];
+    char *tmp       = new (std::nothrow) char[max_len];
     va_list va;
     va_start(va, format);
     if ((vsnprintf(tmp, max_len, format, va) >= 0) && tmp) {
@@ -213,11 +212,11 @@ void GuiText::setText(const wchar_t *t) {
 
     clearDynamicText();
 
-    textScrollPos = 0;
+    textScrollPos          = 0;
     textScrollInitialDelay = TEXT_SCROLL_INITIAL_DELAY;
 
     if (t) {
-        text = new(std::nothrow) wchar_t[wcslen(t) + 1];
+        text = new (std::nothrow) wchar_t[wcslen(t) + 1];
         if (!text) {
             textMutex.unlock();
             return;
@@ -241,11 +240,10 @@ void GuiText::clearDynamicText() {
 }
 
 void GuiText::setPresets(int32_t sz, const glm::vec4 &c, int32_t w, int32_t a) {
-    presetSize = sz;
-    presetColor = (GX2ColorF32) {
-            (float) c.r / 255.0f, (float) c.g / 255.0f, (float) c.b / 255.0f, (float) c.a / 255.0f
-    };
-    presetMaxWidth = w;
+    presetSize  = sz;
+    presetColor = (GX2ColorF32){
+            (float) c.r / 255.0f, (float) c.g / 255.0f, (float) c.b / 255.0f, (float) c.a / 255.0f};
+    presetMaxWidth  = w;
     presetAlignment = a;
 }
 
@@ -262,9 +260,9 @@ void GuiText::setMaxWidth(int32_t width, int32_t w) {
     wrapMode = w;
 
     if (w == SCROLL_HORIZONTAL) {
-        textScrollPos = 0;
+        textScrollPos          = 0;
         textScrollInitialDelay = TEXT_SCROLL_INITIAL_DELAY;
-        textScrollDelay = TEXT_SCROLL_DELAY;
+        textScrollDelay        = TEXT_SCROLL_DELAY;
     }
 
     clearDynamicText();
@@ -276,9 +274,9 @@ void GuiText::setColor(const glm::vec4 &c) {
 }
 
 void GuiText::setBlurGlowColor(float blur, const glm::vec4 &c) {
-    blurGlowColor = c;
+    blurGlowColor     = c;
     blurGlowIntensity = blur;
-    blurAlpha = c[3];
+    blurAlpha         = c[3];
 }
 
 int32_t GuiText::getTextWidth(int32_t ind) {
@@ -297,7 +295,7 @@ int32_t GuiText::getTextWidth(int32_t ind) {
 int32_t GuiText::getTextWidth() {
     textMutex.lock();
     auto res = font->getWidth(text, currentSize);
-    res = res > maxWidth && maxWidth > 0 ? maxWidth : res;
+    res      = res > maxWidth && maxWidth > 0 ? maxWidth : res;
     textMutex.unlock();
     return res;
 }
@@ -365,7 +363,7 @@ void GuiText::makeDottedText() {
     textDyn.resize(pos + 1);
 
     int32_t i = 0, currentWidth = 0;
-    textDyn[pos] = new(std::nothrow) wchar_t[maxWidth];
+    textDyn[pos] = new (std::nothrow) wchar_t[maxWidth];
     if (!textDyn[pos]) {
         textDyn.resize(pos);
         textMutex.unlock();
@@ -377,7 +375,7 @@ void GuiText::makeDottedText() {
         if (currentWidth >= maxWidth && i > 2) {
             textDyn[pos][i - 2] = '.';
             textDyn[pos][i - 1] = '.';
-            textDyn[pos][i] = '.';
+            textDyn[pos][i]     = '.';
             i++;
             break;
         }
@@ -397,7 +395,7 @@ void GuiText::scrollText(uint32_t frameCount) {
         int32_t i = 0, currentWidth = 0;
         textDyn.resize(pos + 1);
 
-        textDyn[pos] = new(std::nothrow) wchar_t[maxWidth];
+        textDyn[pos] = new (std::nothrow) wchar_t[maxWidth];
         if (!textDyn[pos]) {
             textDyn.resize(pos);
             textMutex.unlock();
@@ -431,15 +429,15 @@ void GuiText::scrollText(uint32_t frameCount) {
 
     ++textScrollPos;
     if (textScrollPos > stringlen) {
-        textScrollPos = 0;
+        textScrollPos          = 0;
         textScrollInitialDelay = TEXT_SCROLL_INITIAL_DELAY;
     }
 
-    int32_t ch = textScrollPos;
+    int32_t ch  = textScrollPos;
     int32_t pos = textDyn.size() - 1;
 
     if (!textDyn[pos]) {
-        textDyn[pos] = new(std::nothrow) wchar_t[maxWidth];
+        textDyn[pos] = new (std::nothrow) wchar_t[maxWidth];
     }
 
     if (!textDyn[pos]) {
@@ -481,37 +479,37 @@ void GuiText::wrapText() {
         return;
     }
 
-    int32_t i = 0;
-    int32_t ch = 0;
-    int32_t linenum = 0;
-    int32_t lastSpace = -1;
+    int32_t i              = 0;
+    int32_t ch             = 0;
+    int32_t linenum        = 0;
+    int32_t lastSpace      = -1;
     int32_t lastSpaceIndex = -1;
-    int32_t currentWidth = 0;
+    int32_t currentWidth   = 0;
 
     while (text[ch] && linenum < linestodraw) {
         if (linenum >= (int32_t) textDyn.size()) {
             textDyn.resize(linenum + 1);
-            textDyn[linenum] = new(std::nothrow) wchar_t[maxWidth];
+            textDyn[linenum] = new (std::nothrow) wchar_t[maxWidth];
             if (!textDyn[linenum]) {
                 textDyn.resize(linenum);
                 break;
             }
         }
 
-        textDyn[linenum][i] = text[ch];
+        textDyn[linenum][i]     = text[ch];
         textDyn[linenum][i + 1] = 0;
 
         currentWidth += font->getCharWidth(text[ch], currentSize, ch > 0 ? text[ch - 1] : 0x0000);
 
         if (currentWidth >= maxWidth || (text[ch] == '\n')) {
             if (text[ch] == '\n') {
-                lastSpace = -1;
+                lastSpace      = -1;
                 lastSpaceIndex = -1;
             } else if (lastSpace >= 0) {
-                textDyn[linenum][lastSpaceIndex] = 0; // discard space, and everything after
-                ch = lastSpace; // go backwards to the last space
-                lastSpace = -1; // we have used this space
-                lastSpaceIndex = -1;
+                textDyn[linenum][lastSpaceIndex] = 0;         // discard space, and everything after
+                ch                               = lastSpace; // go backwards to the last space
+                lastSpace                        = -1;        // we have used this space
+                lastSpaceIndex                   = -1;
             }
 
             if (linenum + 1 == linestodraw && text[ch + 1] != 0x0000) {
@@ -521,7 +519,7 @@ void GuiText::wrapText() {
 
                 textDyn[linenum][i - 2] = '.';
                 textDyn[linenum][i - 1] = '.';
-                textDyn[linenum][i] = '.';
+                textDyn[linenum][i]     = '.';
                 textDyn[linenum][i + 1] = 0;
             }
 
@@ -530,7 +528,7 @@ void GuiText::wrapText() {
             i = -1;
         }
         if (text[ch] == ' ' && i >= 0) {
-            lastSpace = ch;
+            lastSpace      = ch;
             lastSpaceIndex = i;
         }
         ++ch;
@@ -589,21 +587,21 @@ float GuiText::getCenterY(void) {
 
     if (alignment & ALIGN_TOP) {
         float pHeight = 0.0f;
-        float pScale = 0.0f;
+        float pScale  = 0.0f;
 
         if (parentElement) {
             pHeight = parentElement->getHeight();
-            pScale = parentElement->getScaleY();
+            pScale  = parentElement->getScaleY();
         }
 
         pCenterY += pHeight * 0.5f * pScale;
     } else if (alignment & ALIGN_BOTTOM) {
         float pHeight = 0.0f;
-        float pScale = 0.0f;
+        float pScale  = 0.0f;
 
         if (parentElement) {
             pHeight = parentElement->getHeight();
-            pScale = parentElement->getScaleY();
+            pScale  = parentElement->getScaleY();
         }
 
         pCenterY -= pHeight * 0.5f * pScale;
@@ -626,12 +624,12 @@ void GuiText::draw(CVideo *pVideo) {
         return;
     }
 
-    color[3] = getAlpha();
+    color[3]         = getAlpha();
     blurGlowColor[3] = blurAlpha * getAlpha();
 
     auto internalRenderingScale = internalSSAA == 0 ? 1 : internalSSAA << 1;
 
-    int32_t normal_size = currentSize * getScale();
+    int32_t normal_size           = currentSize * getScale();
     int32_t internalRenderingSize = normal_size * internalRenderingScale;
 
     auto textWidth = font->getWidth(text, normal_size);

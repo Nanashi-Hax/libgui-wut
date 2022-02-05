@@ -22,16 +22,16 @@
 
 #pragma once
 
-#include <string>
 #include <ft2build.h>
+#include <string>
 #include FT_FREETYPE_H
 #include FT_BITMAP_H
 
 #include <malloc.h>
-#include <string.h>
-#include <wchar.h>
 #include <map>
 #include <mutex>
+#include <string.h>
+#include <wchar.h>
 
 
 #include <gui/gx2_ext.h>
@@ -47,12 +47,12 @@
  * Font face character glyph relevant data structure.
  */
 typedef struct ftgxCharData_ {
-    int16_t renderOffsetX; /**< Texture X axis bearing offset. */
+    int16_t renderOffsetX;  /**< Texture X axis bearing offset. */
     uint16_t glyphAdvanceX; /**< Character glyph X coordinate advance in pixels. */
     uint16_t glyphAdvanceY; /**< Character glyph Y coordinate advance in pixels. */
-    uint32_t glyphIndex; /**< Charachter glyph index in the font face. */
+    uint32_t glyphIndex;    /**< Charachter glyph index in the font face. */
 
-    int16_t renderOffsetY; /**< Texture Y axis bearing offset. */
+    int16_t renderOffsetY;   /**< Texture Y axis bearing offset. */
     int16_t renderOffsetMax; /**< Texture Y axis bearing maximum value. */
     int16_t renderOffsetMin; /**< Texture Y axis bearing minimum value. */
 
@@ -64,15 +64,15 @@ typedef struct ftgxCharData_ {
  * Offset structure which hold both a maximum and minimum value.
  */
 typedef struct ftgxDataOffset_ {
-    int16_t ascender; /**< Maximum data offset. */
+    int16_t ascender;  /**< Maximum data offset. */
     int16_t descender; /**< Minimum data offset. */
-    int16_t max; /**< Maximum data offset. */
-    int16_t min; /**< Minimum data offset. */
+    int16_t max;       /**< Maximum data offset. */
+    int16_t min;       /**< Minimum data offset. */
 } ftgxDataOffset;
 
 typedef struct ftgxCharData_ ftgxCharData;
 typedef struct ftgxDataOffset_ ftgxDataOffset;
-#define _TEXT(t) L ## t /**< Unicode helper macro. */
+#define _TEXT(t)                L##t /**< Unicode helper macro. */
 
 #define FTGX_NULL               0x0000
 #define FTGX_JUSTIFY_LEFT       0x0001
@@ -94,9 +94,8 @@ typedef struct ftgxDataOffset_ ftgxDataOffset;
 #define FTGX_STYLE_MASK         0xf000
 
 /**< Constant color value used only to sanitize Doxygen documentation. */
-static const GX2ColorF32 ftgxWhite = (GX2ColorF32) {
-        1.0f, 1.0f, 1.0f, 1.0f
-};
+static const GX2ColorF32 ftgxWhite = (GX2ColorF32){
+        1.0f, 1.0f, 1.0f, 1.0f};
 
 
 //! forward declaration
@@ -113,10 +112,10 @@ class CVideo;
  */
 class FreeTypeGX {
 private:
-    FT_Library ftLibrary; /**< FreeType FT_Library instance. */
-    FT_Face ftFace; /**< FreeType reusable FT_Face typographic object. */
+    FT_Library ftLibrary;  /**< FreeType FT_Library instance. */
+    FT_Face ftFace;        /**< FreeType reusable FT_Face typographic object. */
     bool ftKerningEnabled; /**< Flag indicating the availability of font kerning data. */
-    uint8_t vertexIndex; /**< Vertex format descriptor index. */
+    uint8_t vertexIndex;   /**< Vertex format descriptor index. */
     GX2Sampler ftSampler;
     std::recursive_mutex faceMutex;
     std::recursive_mutex fontDataMutex;

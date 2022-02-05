@@ -28,12 +28,12 @@
 
 #include <vector>
 
-#include <gui/system/CThread.h>
 #include <gui/sounds/SoundDecoder.hpp>
 #include <gui/sounds/Voice.h>
+#include <gui/system/CThread.h>
 #include <sndcore2/voice.h>
 
-#define MAX_DECODERS    16  // can be increased up to 96
+#define MAX_DECODERS 16 // can be increased up to 96
 
 class SoundHandler : public CThread {
 public:
@@ -70,6 +70,7 @@ public:
     bool IsDecoding() {
         return Decoding;
     };
+
 protected:
     SoundHandler();
 

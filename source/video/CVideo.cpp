@@ -14,19 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
-#include <malloc.h>
-#include <string.h>
-#include <gui/video/CVideo.h>
+#include "utils/utils.h"
+#include <cstdint>
 #include <gui/memory.h>
-#include <gui/video/shaders/Texture2DShader.h>
+#include <gui/video/CVideo.h>
 #include <gui/video/shaders/ColorShader.h>
+#include <gui/video/shaders/FXAAShader.h>
 #include <gui/video/shaders/Shader3D.h>
 #include <gui/video/shaders/ShaderFractalColor.h>
-#include <gui/video/shaders/FXAAShader.h>
-#include "utils/utils.h"
+#include <gui/video/shaders/Texture2DShader.h>
+#include <malloc.h>
+#include <string.h>
 
 CVideo::CVideo(int32_t forceTvScanMode, int32_t forceDrcScanMode) {
-    tvEnabled = false;
+    tvEnabled  = false;
     drcEnabled = false;
 
     //! allocate MEM2 command buffer memory
@@ -46,43 +47,43 @@ CVideo::CVideo(int32_t forceTvScanMode, int32_t forceDrcScanMode) {
     GX2Init(gx2_init_attributes);
 
     uint32_t scanBufferSize = 0;
-    uint32_t scaleNeeded = 0;
+    uint32_t scaleNeeded    = 0;
 
-    int32_t tvScanMode = ((forceTvScanMode >= 0) ? forceTvScanMode : (int32_t) GX2GetSystemTVScanMode());
+    int32_t tvScanMode  = ((forceTvScanMode >= 0) ? forceTvScanMode : (int32_t) GX2GetSystemTVScanMode());
     int32_t drcScanMode = ((forceDrcScanMode >= 0) ? forceDrcScanMode : (int32_t) GX2GetSystemDRCScanMode());
 
     int32_t tvRenderMode;
-    uint32_t tvWidth = 0;
+    uint32_t tvWidth  = 0;
     uint32_t tvHeight = 0;
 
     switch (tvScanMode) {
         case GX2_TV_SCAN_MODE_480I:
         case GX2_TV_SCAN_MODE_480P:
-            tvWidth = 854;
-            tvHeight = 480;
+            tvWidth      = 854;
+            tvHeight     = 480;
             tvRenderMode = GX2_TV_RENDER_MODE_WIDE_480P;
             break;
         case GX2_TV_SCAN_MODE_1080I:
         case GX2_TV_SCAN_MODE_1080P:
-            tvWidth = 1920;
-            tvHeight = 1080;
+            tvWidth      = 1920;
+            tvHeight     = 1080;
             tvRenderMode = GX2_TV_RENDER_MODE_WIDE_1080P;
             break;
         case GX2_TV_SCAN_MODE_720P:
         default:
-            tvWidth = 1280;
-            tvHeight = 720;
+            tvWidth      = 1280;
+            tvHeight     = 720;
             tvRenderMode = GX2_TV_RENDER_MODE_WIDE_720P;
             break;
     }
 
-    int32_t tvAAMode = GX2_AA_MODE1X;
+    int32_t tvAAMode  = GX2_AA_MODE1X;
     int32_t drcAAMode = GX2_AA_MODE4X;
 
     //! calculate the scale factor for later texture resize
-    widthScaleFactor = 1.0f / (float) tvWidth;
+    widthScaleFactor  = 1.0f / (float) tvWidth;
     heightScaleFactor = 1.0f / (float) tvHeight;
-    depthScaleFactor = widthScaleFactor;
+    depthScaleFactor  = widthScaleFactor;
 
     //! calculate the size needed for the TV scan buffer and allocate the buffer from bucket memory
     GX2CalcTVSize((GX2TVRenderMode) tvRenderMode, GX2_SURFACE_FORMAT_UNORM_R8_G8_B8_A8, GX2_BUFFERING_MODE_DOUBLE, &scanBufferSize, &scaleNeeded);
@@ -197,9 +198,9 @@ CVideo::CVideo(int32_t forceTvScanMode, int32_t forceDrcScanMode) {
 
     GX2InitSampler(&aaSampler, GX2_TEX_CLAMP_MODE_CLAMP, GX2_TEX_XY_FILTER_MODE_LINEAR);
     GX2InitTexture(&tvAaTexture, tvColorBuffer.surface.width, tvColorBuffer.surface.height, 1, 0, GX2_SURFACE_FORMAT_UNORM_R8_G8_B8_A8, GX2_SURFACE_DIM_TEXTURE_2D, GX2_TILE_MODE_DEFAULT);
-    tvAaTexture.surface.image = tvColorBuffer.surface.image;
+    tvAaTexture.surface.image     = tvColorBuffer.surface.image;
     tvAaTexture.surface.imageSize = tvColorBuffer.surface.imageSize;
-    tvAaTexture.surface.mipmaps = tvColorBuffer.surface.mipmaps;
+    tvAaTexture.surface.mipmaps   = tvColorBuffer.surface.mipmaps;
 }
 
 CVideo::~CVideo() {

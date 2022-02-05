@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
+#include <gui/video/shaders/ColorShader.h>
 #include <malloc.h>
 #include <string.h>
-#include <gui/video/shaders/ColorShader.h>
 
 static const uint32_t cpVertexShaderProgram[] = {
         0x00000000, 0x00008009, 0x20000000, 0x000078a0,
@@ -51,8 +51,7 @@ static const uint32_t cpVertexShaderProgram[] = {
         0x02c49f80, 0x80000060, 0x02e08f01, 0xfe0c620f,
         0x02c01f80, 0x7f00622f, 0xfe242000, 0x10000000,
         0xfe20a080, 0x10000020, 0xf2178647, 0x49c0e9fb,
-        0xfbbdb2ab, 0x768ac733
-};
+        0xfbbdb2ab, 0x768ac733};
 
 static const uint32_t cpVertexShaderRegs[] = {
         0x00000103, 0x00000000, 0x00000000, 0x00000001,
@@ -67,8 +66,7 @@ static const uint32_t cpVertexShaderRegs[] = {
         0x000000ff, 0x000000ff, 0x000000ff, 0x000000ff,
         0x000000ff, 0x000000ff, 0x000000ff, 0x000000ff,
         0x000000ff, 0x000000ff, 0x000000ff, 0x000000ff,
-        0x000000ff, 0x00000000, 0x0000000e, 0x00000010
-};
+        0x000000ff, 0x00000000, 0x0000000e, 0x00000010};
 
 static const uint32_t cpPixelShaderProgram[] = {
         0x20000000, 0x00000ca0, 0x00000000, 0x88062094,
@@ -89,8 +87,7 @@ static const uint32_t cpPixelShaderProgram[] = {
         0x00000000, 0x00000000, 0x00000000, 0x00000000,
         0x00002000, 0x90000000, 0x0004a000, 0x90000020,
         0x00082001, 0x90000040, 0x000ca081, 0x90000060,
-        0xbb7dd898, 0x9746c59c, 0xc69b00e7, 0x03c36218
-};
+        0xbb7dd898, 0x9746c59c, 0xc69b00e7, 0x03c36218};
 static const uint32_t cpPixelShaderRegs[] = {
         0x00000001, 0x00000002, 0x14000001, 0x00000000,
         0x00000001, 0x00000100, 0x00000000, 0x00000000,
@@ -102,45 +99,38 @@ static const uint32_t cpPixelShaderRegs[] = {
         0x00000000, 0x00000000, 0x00000000, 0x00000000,
         0x00000000, 0x00000000, 0x00000000, 0x00000000,
         0x00000000, 0x0000000f, 0x00000001, 0x00000010,
-        0x00000000
-};
+        0x00000000};
 
 ColorShader *ColorShader::shaderInstance = NULL;
 
 ColorShader::ColorShader()
-        : vertexShader(cuAttributeCount) {
+    : vertexShader(cuAttributeCount) {
     //! create pixel shader
     pixelShader.setProgram(cpPixelShaderProgram, sizeof(cpPixelShaderProgram), cpPixelShaderRegs, sizeof(cpPixelShaderRegs));
 
     colorIntensityLocation = 0;
-    pixelShader.addUniformVar((GX2UniformVar) {
-            "unf_color_intensity", GX2_SHADER_VAR_TYPE_FLOAT4, 1, colorIntensityLocation, -1
-    });
+    pixelShader.addUniformVar((GX2UniformVar){
+            "unf_color_intensity", GX2_SHADER_VAR_TYPE_FLOAT4, 1, colorIntensityLocation, -1});
 
     //! create vertex shader
     vertexShader.setProgram(cpVertexShaderProgram, sizeof(cpVertexShaderProgram), cpVertexShaderRegs, sizeof(cpVertexShaderRegs));
 
-    angleLocation = 0;
+    angleLocation  = 0;
     offsetLocation = 4;
-    scaleLocation = 8;
-    vertexShader.addUniformVar((GX2UniformVar) {
-            "unf_angle", GX2_SHADER_VAR_TYPE_FLOAT, 1, angleLocation, -1
-    });
-    vertexShader.addUniformVar((GX2UniformVar) {
-            "unf_offset", GX2_SHADER_VAR_TYPE_FLOAT3, 1, offsetLocation, -1
-    });
-    vertexShader.addUniformVar((GX2UniformVar) {
-            "unf_scale", GX2_SHADER_VAR_TYPE_FLOAT3, 1, scaleLocation, -1
-    });
+    scaleLocation  = 8;
+    vertexShader.addUniformVar((GX2UniformVar){
+            "unf_angle", GX2_SHADER_VAR_TYPE_FLOAT, 1, angleLocation, -1});
+    vertexShader.addUniformVar((GX2UniformVar){
+            "unf_offset", GX2_SHADER_VAR_TYPE_FLOAT3, 1, offsetLocation, -1});
+    vertexShader.addUniformVar((GX2UniformVar){
+            "unf_scale", GX2_SHADER_VAR_TYPE_FLOAT3, 1, scaleLocation, -1});
 
-    colorLocation = 1;
+    colorLocation    = 1;
     positionLocation = 0;
-    vertexShader.addAttribVar((GX2AttribVar) {
-            "attr_color", GX2_SHADER_VAR_TYPE_FLOAT4, 0, colorLocation
-    });
-    vertexShader.addAttribVar((GX2AttribVar) {
-            "attr_position", GX2_SHADER_VAR_TYPE_FLOAT3, 0, positionLocation
-    });
+    vertexShader.addAttribVar((GX2AttribVar){
+            "attr_color", GX2_SHADER_VAR_TYPE_FLOAT4, 0, colorLocation});
+    vertexShader.addAttribVar((GX2AttribVar){
+            "attr_position", GX2_SHADER_VAR_TYPE_FLOAT3, 0, positionLocation});
 
     //! setup attribute streams
     GX2InitAttribStream(vertexShader.getAttributeBuffer(0), positionLocation, 0, 0, GX2_ATTRIB_FORMAT_FLOAT_32_32_32);
@@ -153,7 +143,7 @@ ColorShader::ColorShader()
     positionVtxs = (float *) memalign(GX2_VERTEX_BUFFER_ALIGNMENT, cuPositionVtxsSize);
     if (positionVtxs) {
         //! position vertex structure
-        int32_t i = 0;
+        int32_t i         = 0;
         positionVtxs[i++] = -1.0f;
         positionVtxs[i++] = -1.0f;
         positionVtxs[i++] = 0.0f;

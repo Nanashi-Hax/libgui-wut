@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
+#include "utils/utils.h"
 #include <gui/GuiParticleImage.h>
 #include <gui/video/CVideo.h>
 #include <gui/video/shaders/ColorShader.h>
-#include "utils/utils.h"
 
-#define CIRCLE_VERTEX_COUNT     36
+#define CIRCLE_VERTEX_COUNT 36
 
 static inline float getRandZeroToOneF32() {
     return (rand() % 10000) * 0.0001f;
@@ -30,16 +30,16 @@ static inline float getRandMinusOneToOneF32() {
 }
 
 GuiParticleImage::GuiParticleImage(int32_t w, int32_t h, uint32_t particleCount, float minRadius, float maxRadius, float minSpeed, float maxSpeed)
-        : GuiImage(NULL) {
-    width = w;
-    height = h;
-    imgType = IMAGE_COLOR;
+    : GuiImage(NULL) {
+    width           = w;
+    height          = h;
+    imgType         = IMAGE_COLOR;
     this->minRadius = minRadius;
     this->maxRadius = maxRadius;
-    this->minSpeed = minSpeed;
-    this->maxSpeed = maxSpeed;
+    this->minSpeed  = minSpeed;
+    this->maxSpeed  = maxSpeed;
 
-    posVertexs = (float *) memalign(GX2_VERTEX_BUFFER_ALIGNMENT, ColorShader::cuVertexAttrSize * CIRCLE_VERTEX_COUNT);
+    posVertexs   = (float *) memalign(GX2_VERTEX_BUFFER_ALIGNMENT, ColorShader::cuVertexAttrSize * CIRCLE_VERTEX_COUNT);
     colorVertexs = (uint8_t *) memalign(GX2_VERTEX_BUFFER_ALIGNMENT, ColorShader::cuColorAttrSize * CIRCLE_VERTEX_COUNT);
 
     for (uint32_t i = 0; i < CIRCLE_VERTEX_COUNT; i++) {
@@ -61,10 +61,10 @@ GuiParticleImage::GuiParticleImage(int32_t w, int32_t h, uint32_t particleCount,
         particles[i].position.x = getRandMinusOneToOneF32() * getWidth() * 0.5f;
         particles[i].position.y = getRandMinusOneToOneF32() * getHeight() * 0.5f;
         particles[i].position.z = 0.0f;
-        particles[i].colors = glm::vec4(1.0f, 1.0f, 1.0f, (getRandZeroToOneF32() * 0.6f) + 0.05f);
-        particles[i].radius = getRandZeroToOneF32() * (maxRadius - minRadius) + minRadius;
-        particles[i].speed = (getRandZeroToOneF32() * (maxSpeed - minSpeed)) + minSpeed;
-        particles[i].direction = getRandMinusOneToOneF32();
+        particles[i].colors     = glm::vec4(1.0f, 1.0f, 1.0f, (getRandZeroToOneF32() * 0.6f) + 0.05f);
+        particles[i].radius     = getRandZeroToOneF32() * (maxRadius - minRadius) + minRadius;
+        particles[i].speed      = (getRandZeroToOneF32() * (maxSpeed - minSpeed)) + minSpeed;
+        particles[i].direction  = getRandMinusOneToOneF32();
     }
 }
 
@@ -93,10 +93,10 @@ void GuiParticleImage::draw(CVideo *pVideo) {
         if (particles[i].position.y > (getHeight() * 0.5f + 30.0f)) {
             particles[i].position.x = getRandMinusOneToOneF32() * getWidth() * 0.5f;
             particles[i].position.y = -getHeight() * 0.5f - 30.0f;
-            particles[i].colors = glm::vec4(1.0f, 1.0f, 1.0f, (getRandZeroToOneF32() * 0.6f) + 0.05f);
-            particles[i].radius = getRandZeroToOneF32() * (maxRadius - minRadius) + minRadius;
-            particles[i].speed = (getRandZeroToOneF32() * (maxSpeed - minSpeed)) + minSpeed;
-            particles[i].direction = getRandMinusOneToOneF32();
+            particles[i].colors     = glm::vec4(1.0f, 1.0f, 1.0f, (getRandZeroToOneF32() * 0.6f) + 0.05f);
+            particles[i].radius     = getRandZeroToOneF32() * (maxRadius - minRadius) + minRadius;
+            particles[i].speed      = (getRandZeroToOneF32() * (maxSpeed - minSpeed)) + minSpeed;
+            particles[i].direction  = getRandMinusOneToOneF32();
         }
         if (particles[i].position.x < (-getWidth() * 0.5f - 50.0f)) {
             particles[i].position.x = -particles[i].position.x;

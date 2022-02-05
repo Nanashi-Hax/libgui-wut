@@ -24,7 +24,7 @@ class VPadController : public GuiController {
 public:
     //!Constructor
     VPadController(int32_t channel)
-            : GuiController(channel) {
+        : GuiController(channel) {
         memset(&vpad, 0, sizeof(vpad));
     }
 
@@ -38,11 +38,11 @@ public:
         VPADRead(VPAD_CHAN_0, &vpad, 1, &vpadError);
 
         if (vpadError == VPAD_READ_SUCCESS) {
-            data.buttons_r = vpad.release;
-            data.buttons_h = vpad.hold;
-            data.buttons_d = vpad.trigger;
+            data.buttons_r    = vpad.release;
+            data.buttons_h    = vpad.hold;
+            data.buttons_d    = vpad.trigger;
             data.validPointer = !vpad.tpNormal.validity;
-            data.touched = vpad.tpNormal.touched;
+            data.touched      = vpad.tpNormal.touched;
 
             VPADGetTPCalibratedPoint(VPAD_CHAN_0, &tpCalib, &vpad.tpFiltered1);
 

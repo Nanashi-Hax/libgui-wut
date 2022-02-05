@@ -17,9 +17,9 @@
 #ifndef SHADER_FRACTAL_COLOR_H_
 #define SHADER_FRACTAL_COLOR_H_
 
-#include <gui/video/shaders/VertexShader.h>
-#include <gui/video/shaders/PixelShader.h>
 #include <gui/video/shaders/FetchShader.h>
+#include <gui/video/shaders/PixelShader.h>
+#include <gui/video/shaders/VertexShader.h>
 
 class ShaderFractalColor : public Shader {
 private:
@@ -30,9 +30,9 @@ private:
     static ShaderFractalColor *shaderInstance;
 
     static const unsigned char cuAttributeCount = 3;
-    static const uint32_t ciPositionVtxsSize = 4 * cuVertexAttrSize;
-    static const uint32_t ciTexCoordsVtxsSize = 4 * cuTexCoordAttrSize;
-    static const uint32_t ciColorVtxsSize = 4 * cuColorAttrSize;
+    static const uint32_t ciPositionVtxsSize    = 4 * cuVertexAttrSize;
+    static const uint32_t ciTexCoordsVtxsSize   = 4 * cuTexCoordAttrSize;
+    static const uint32_t ciColorVtxsSize       = 4 * cuColorAttrSize;
 
     FetchShader *fetchShader;
     VertexShader vertexShader;
@@ -53,6 +53,7 @@ private:
     uint32_t colorIntensityLocation;
     uint32_t fadeOutLocation;
     uint32_t fractalLocation;
+
 public:
     static ShaderFractalColor *instance() {
         if (!shaderInstance) {

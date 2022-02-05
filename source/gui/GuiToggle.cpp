@@ -21,7 +21,7 @@
  */
 
 GuiToggle::GuiToggle(bool checked, float width, float height)
-        : GuiButton(width, height) {
+    : GuiButton(width, height) {
     bChanged = false;
     selected = checked;
     clicked.connect(this, &GuiToggle::OnToggleClick);
@@ -48,4 +48,3 @@ void GuiToggle::OnToggleClick(GuiButton *button, const GuiController *controller
 void GuiToggle::update(GuiController *c) {
     GuiButton::update(c);
 }
-

@@ -26,9 +26,9 @@
 #ifndef SOUND_DECODER_HPP
 #define SOUND_DECODER_HPP
 
-#include <string>
-#include <mutex>
 #include <gui/sounds/BufferCircle.hpp>
+#include <mutex>
+#include <string>
 
 class CFile;
 
@@ -91,7 +91,7 @@ public:
     }
 
     virtual void SetLoop(bool l) {
-        Loop = l;
+        Loop      = l;
         EndOfFile = false;
     }
 
@@ -119,12 +119,12 @@ public:
     void EnableUpsample(void);
 
     enum SoundFormats {
-        FORMAT_PCM_16_BIT   = 0x0A,
-        FORMAT_PCM_8_BIT    = 0x19,
+        FORMAT_PCM_16_BIT = 0x0A,
+        FORMAT_PCM_8_BIT  = 0x19,
     };
     enum SoundChannels {
-        CHANNELS_MONO       = 0x100,
-        CHANNELS_STEREO     = 0x200
+        CHANNELS_MONO   = 0x100,
+        CHANNELS_STEREO = 0x200
     };
 
     enum SoundType {
@@ -133,6 +133,7 @@ public:
         SOUND_OGG,
         SOUND_WAV
     };
+
 protected:
     void Init();
 

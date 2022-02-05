@@ -17,14 +17,14 @@
 #ifndef GUI_CONTROLLER_H_
 #define GUI_CONTROLLER_H_
 
-#include <string.h>
 #include <gui/GuiTrigger.h>
+#include <string.h>
 
 class GuiController {
 public:
     //!Constructor
     GuiController(int32_t channel)
-            : chan(channel) {
+        : chan(channel) {
         memset(&lastData, 0, sizeof(lastData));
         memset(&data, 0, sizeof(data));
 
@@ -68,7 +68,6 @@ public:
     int32_t chanIdx;
     PadData data;
     PadData lastData;
-
 };
 
 #endif

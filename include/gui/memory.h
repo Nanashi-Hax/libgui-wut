@@ -21,6 +21,7 @@
 extern "C" {
 #endif
 
+#include <cstdint>
 #include <malloc.h>
 
 void libgui_memoryInitialize(void);

@@ -25,7 +25,7 @@ class WPadController : public GuiController {
 public:
     //!Constructor
     WPadController(int32_t channel)
-            : GuiController(channel) {
+        : GuiController(channel) {
         memset(&kpadData, 0, sizeof(kpadData));
     }
 

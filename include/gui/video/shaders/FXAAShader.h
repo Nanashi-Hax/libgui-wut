@@ -17,9 +17,9 @@
 #ifndef __FXAA_SHADER_H_
 #define __FXAA_SHADER_H_
 
-#include <gui/video/shaders/VertexShader.h>
-#include <gui/video/shaders/PixelShader.h>
 #include <gui/video/shaders/FetchShader.h>
+#include <gui/video/shaders/PixelShader.h>
+#include <gui/video/shaders/VertexShader.h>
 
 class FXAAShader : public Shader {
 public:
@@ -62,8 +62,8 @@ private:
 
     virtual ~FXAAShader();
 
-    static const uint32_t cuAttributeCount = 2;
-    static const uint32_t ciPositionVtxsSize = 4 * cuVertexAttrSize;
+    static const uint32_t cuAttributeCount    = 2;
+    static const uint32_t ciPositionVtxsSize  = 4 * cuVertexAttrSize;
     static const uint32_t ciTexCoordsVtxsSize = 4 * cuTexCoordAttrSize;
 
     static FXAAShader *shaderInstance;

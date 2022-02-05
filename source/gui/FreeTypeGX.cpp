@@ -75,8 +75,8 @@ FreeTypeGX::~FreeTypeGX() {
 wchar_t *FreeTypeGX::charToWideChar(const char *strChar) {
     if (!strChar) { return NULL; }
 
-    size_t len = strlen(strChar) + 1;
-    wchar_t *strWChar = new(std::nothrow) wchar_t[len];
+    size_t len        = strlen(strChar) + 1;
+    wchar_t *strWChar = new (std::nothrow) wchar_t[len];
     if (!strWChar) { return NULL; }
 
     size_t bt = mbstowcs(strWChar, strChar, len);
@@ -112,7 +112,7 @@ char *FreeTypeGX::wideCharToUTF8(const wchar_t *strChar) {
         }
     }
 
-    char *pOut = new(std::nothrow) char[len];
+    char *pOut = new (std::nothrow) char[len];
     if (!pOut) {
         return NULL;
     }
@@ -194,7 +194,7 @@ ftgxCharData *FreeTypeGX::cacheGlyphData(wchar_t charCode, int16_t pixelSize) {
 
     FT_Set_Pixel_Sizes(ftFace, 0, pixelSize);
 
-    ftData->ftgxAlign.ascender = (int16_t) ftFace->size->metrics.ascender >> 6;
+    ftData->ftgxAlign.ascender  = (int16_t) ftFace->size->metrics.ascender >> 6;
     ftData->ftgxAlign.descender = (int16_t) ftFace->size->metrics.descender >> 6;
 
     FT_UInt gIndex;
@@ -205,7 +205,7 @@ ftgxCharData *FreeTypeGX::cacheGlyphData(wchar_t charCode, int16_t pixelSize) {
         if (ftFace->glyph->format == FT_GLYPH_FORMAT_BITMAP) {
             FT_Bitmap *glyphBitmap = &ftFace->glyph->bitmap;
 
-            textureWidth = ALIGN4(glyphBitmap->width);
+            textureWidth  = ALIGN4(glyphBitmap->width);
             textureHeight = ALIGN4(glyphBitmap->rows);
             if (textureWidth == 0) {
                 textureWidth = 4;
@@ -214,19 +214,19 @@ ftgxCharData *FreeTypeGX::cacheGlyphData(wchar_t charCode, int16_t pixelSize) {
                 textureHeight = 4;
             }
 
-            ftgxCharData *charData = &ftData->ftgxCharMap[charCode];
-            charData->renderOffsetX = (int16_t) ftFace->glyph->bitmap_left;
-            charData->glyphAdvanceX = (uint16_t) (ftFace->glyph->advance.x >> 6);
-            charData->glyphAdvanceY = (uint16_t) (ftFace->glyph->advance.y >> 6);
-            charData->glyphIndex = (uint32_t) gIndex;
-            charData->renderOffsetY = (int16_t) ftFace->glyph->bitmap_top;
+            ftgxCharData *charData    = &ftData->ftgxCharMap[charCode];
+            charData->renderOffsetX   = (int16_t) ftFace->glyph->bitmap_left;
+            charData->glyphAdvanceX   = (uint16_t) (ftFace->glyph->advance.x >> 6);
+            charData->glyphAdvanceY   = (uint16_t) (ftFace->glyph->advance.y >> 6);
+            charData->glyphIndex      = (uint32_t) gIndex;
+            charData->renderOffsetY   = (int16_t) ftFace->glyph->bitmap_top;
             charData->renderOffsetMax = (int16_t) ftFace->glyph->bitmap_top;
             charData->renderOffsetMin = (int16_t) glyphBitmap->rows - ftFace->glyph->bitmap_top;
 
-            int16_t oldMax = ftData->ftgxAlign.max;
+            int16_t oldMax        = ftData->ftgxAlign.max;
             ftData->ftgxAlign.max = charData->renderOffsetMax > oldMax ? charData->renderOffsetMax : oldMax;
 
-            int16_t oldMin = ftData->ftgxAlign.min;
+            int16_t oldMin        = ftData->ftgxAlign.min;
             ftData->ftgxAlign.min = charData->renderOffsetMin > oldMin ? charData->renderOffsetMin : oldMin;
 
             //! Initialize texture
@@ -290,13 +290,13 @@ bool FreeTypeGX::loadGlyphData(FT_Bitmap *bmp, ftgxCharData *charData) {
 
     memset(charData->texture->surface.image, 0x00, charData->texture->surface.imageSize);
 
-    uint8_t *src = (uint8_t *) bmp->buffer;
+    uint8_t *src  = (uint8_t *) bmp->buffer;
     uint16_t *dst = (uint16_t *) charData->texture->surface.image;
     uint32_t x, y;
 
     for (y = 0; y < bmp->rows; y++) {
         for (x = 0; x < bmp->width; x++) {
-            uint8_t intensity = src[y * bmp->width + x] >> 3;
+            uint8_t intensity                             = src[y * bmp->width + x] >> 3;
             dst[y * charData->texture->surface.pitch + x] = intensity ? ((intensity << 11) | (intensity << 6) | (intensity << 1) | 1) : 0;
         }
     }
@@ -317,7 +317,9 @@ int16_t FreeTypeGX::getStyleOffsetWidth(uint16_t width, uint16_t format) {
         return 0;
     } else if (format & FTGX_JUSTIFY_CENTER) {
         return -(width >> 1);
-    } else if (format & FTGX_JUSTIFY_RIGHT) { return -width; }
+    } else if (format & FTGX_JUSTIFY_RIGHT) {
+        return -width;
+    }
     return 0;
 }
 
@@ -434,7 +436,7 @@ uint16_t FreeTypeGX::getWidth(const wchar_t *text, int16_t pixelSize) {
     if (!text) { return 0; }
 
     uint16_t strWidth = 0;
-    int32_t i = 0;
+    int32_t i         = 0;
     while (text[i]) {
         strWidth += getCharWidth(text[i], pixelSize, i > 0 ? text[i - 1] : 0);
         ++i;
@@ -446,7 +448,7 @@ uint16_t FreeTypeGX::getWidth(const wchar_t *text, int16_t pixelSize) {
  * Single char width
  */
 uint16_t FreeTypeGX::getCharWidth(const wchar_t wChar, int16_t pixelSize, const wchar_t prevChar) {
-    uint16_t strWidth = 0;
+    uint16_t strWidth       = 0;
     ftgxCharData *glyphData = cacheGlyphData(wChar, pixelSize);
 
     if (glyphData != NULL) {
@@ -510,12 +512,12 @@ uint16_t FreeTypeGX::getHeight(const wchar_t *text, int16_t pixelSize) {
 void FreeTypeGX::copyTextureToFramebuffer(CVideo *pVideo, GX2Texture *texture, int16_t x, int16_t y, int16_t z, const glm::vec4 &color, const float &defaultBlur, const float &blurIntensity, const glm::vec4 &blurColor,
                                           const float &superSamplingScale) {
     static const float imageAngle = 0.0f;
-    static const float blurScale = (2.0f);
+    static const float blurScale  = (2.0f);
 
     float offsetLeft = blurScale * (1.0f / superSamplingScale) * ((float) x + 0.5f * (float) texture->surface.width) * (float) pVideo->getWidthScaleFactor();
-    float offsetTop = blurScale * (1.0f / superSamplingScale) * ((float) y - 0.5f * (float) texture->surface.height) * (float) pVideo->getHeightScaleFactor();
+    float offsetTop  = blurScale * (1.0f / superSamplingScale) * ((float) y - 0.5f * (float) texture->surface.height) * (float) pVideo->getHeightScaleFactor();
 
-    float widthScale = blurScale * (1.0f / superSamplingScale) * (float) texture->surface.width * pVideo->getWidthScaleFactor();
+    float widthScale  = blurScale * (1.0f / superSamplingScale) * (float) texture->surface.width * pVideo->getWidthScaleFactor();
     float heightScale = blurScale * (1.0f / superSamplingScale) * (float) texture->surface.height * pVideo->getHeightScaleFactor();
 
     glm::vec3 positionOffsets(offsetLeft, offsetTop, (float) z);

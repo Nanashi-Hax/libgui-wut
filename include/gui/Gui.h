@@ -30,13 +30,13 @@
 #include <gui/GuiImageAsync.h>
 #include <gui/GuiImageData.h>
 #include <gui/GuiParticleImage.h>
+#include <gui/GuiScrollbar.h>
 #include <gui/GuiSelectBox.h>
 #include <gui/GuiSound.h>
 #include <gui/GuiSwitch.h>
 #include <gui/GuiText.h>
 #include <gui/GuiToggle.h>
 #include <gui/GuiTrigger.h>
-#include <gui/GuiScrollbar.h>
 #include <gui/VPadController.h>
 #include <gui/WPadController.h>
 

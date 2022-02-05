@@ -40,7 +40,6 @@ public:
 
     void setChecked() {
         setValue(true);
-
     }
 
     void setUnchecked() {
@@ -56,7 +55,6 @@ public:
     void OnToggleClick(GuiButton *button, const GuiController *controller, GuiTrigger *trigger);
 
 protected:
-
     bool selected;
     bool bChanged;
 

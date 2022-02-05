@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
+#include <gui/video/shaders/Shader3D.h>
 #include <malloc.h>
 #include <string.h>
-#include <gui/video/shaders/Shader3D.h>
 
 static const uint32_t cpVertexShaderProgram[] = {
         0x00000000, 0x00008009, 0x20000000, 0x0000e4a1,
@@ -108,8 +108,7 @@ static const uint32_t cpVertexShaderProgram[] = {
         0x07c09f80, 0x7e048200, 0x07e00f00, 0xfe008220,
         0x07cc1f01, 0x7e086a4f, 0x07c09f81, 0x7f0c8240,
         0x07c08f80, 0xfe088260, 0x2c34800d, 0xe3b4f15e,
-        0x7642ed30, 0x7408600d
-};
+        0x7642ed30, 0x7408600d};
 
 static const uint32_t cpVertexShaderRegs[] = {
         0x00000108, 0x00000000, 0x00000002, 0x00000001,
@@ -124,8 +123,7 @@ static const uint32_t cpVertexShaderRegs[] = {
         0x000000ff, 0x000000ff, 0x000000ff, 0x000000ff,
         0x000000ff, 0x000000ff, 0x000000ff, 0x000000ff,
         0x000000ff, 0x000000ff, 0x000000ff, 0x000000ff,
-        0x000000ff, 0x00000000, 0x0000000e, 0x00000010
-};
+        0x000000ff, 0x00000000, 0x0000000e, 0x00000010};
 
 static const uint32_t cPixelShaderProgram[] = {
         0x20000000, 0x000008a4, 0x03000000, 0x01004085,
@@ -169,8 +167,7 @@ static const uint32_t cPixelShaderProgram[] = {
         0x00000000, 0x00000000, 0x00000000, 0x00000000,
         0x00000000, 0x00000000, 0x00000000, 0x00000000,
         0x10000100, 0x01100df0, 0x00008010, 0xecdfea0d,
-        0x99720984, 0x041cab0d, 0xa28a9ccd, 0x95d199a5
-};
+        0x99720984, 0x041cab0d, 0xa28a9ccd, 0x95d199a5};
 static const uint32_t cPixelShaderRegs[] = {
         0x00000102, 0x00000002, 0x14000002, 0x00000000,
         0x00000002, 0x00000100, 0x00000101, 0x00000000,
@@ -182,57 +179,47 @@ static const uint32_t cPixelShaderRegs[] = {
         0x00000000, 0x00000000, 0x00000000, 0x00000000,
         0x00000000, 0x00000000, 0x00000000, 0x00000000,
         0x00000000, 0x0000000f, 0x00000001, 0x00000010,
-        0x00000000
-};
+        0x00000000};
 
 Shader3D *Shader3D::shaderInstance = NULL;
 
 Shader3D::Shader3D()
-        : vertexShader(cuAttributeCount) {
+    : vertexShader(cuAttributeCount) {
     //! create pixel shader
     pixelShader.setProgram(cPixelShaderProgram, sizeof(cPixelShaderProgram), cPixelShaderRegs, sizeof(cPixelShaderRegs));
 
     colorIntensityLocation = 0;
-    fadeDistanceLocation = 4;
-    fadeOutLocation = 8;
-    pixelShader.addUniformVar((GX2UniformVar) {
-            "unf_color_intensity", GX2_SHADER_VAR_TYPE_FLOAT4, 1, colorIntensityLocation, -1
-    });
-    pixelShader.addUniformVar((GX2UniformVar) {
-            "unf_fade_distance", GX2_SHADER_VAR_TYPE_FLOAT, 1, fadeDistanceLocation, -1
-    });
-    pixelShader.addUniformVar((GX2UniformVar) {
-            "unf_fade_out_alpha", GX2_SHADER_VAR_TYPE_FLOAT4, 1, fadeOutLocation, -1
-    });
+    fadeDistanceLocation   = 4;
+    fadeOutLocation        = 8;
+    pixelShader.addUniformVar((GX2UniformVar){
+            "unf_color_intensity", GX2_SHADER_VAR_TYPE_FLOAT4, 1, colorIntensityLocation, -1});
+    pixelShader.addUniformVar((GX2UniformVar){
+            "unf_fade_distance", GX2_SHADER_VAR_TYPE_FLOAT, 1, fadeDistanceLocation, -1});
+    pixelShader.addUniformVar((GX2UniformVar){
+            "unf_fade_out_alpha", GX2_SHADER_VAR_TYPE_FLOAT4, 1, fadeOutLocation, -1});
 
     samplerLocation = 0;
-    pixelShader.addSamplerVar((GX2SamplerVar) {
-            "sampl_texture", GX2_SAMPLER_VAR_TYPE_SAMPLER_2D, samplerLocation
-    });
+    pixelShader.addSamplerVar((GX2SamplerVar){
+            "sampl_texture", GX2_SAMPLER_VAR_TYPE_SAMPLER_2D, samplerLocation});
     //! create vertex shader
     vertexShader.setProgram(cpVertexShaderProgram, sizeof(cpVertexShaderProgram), cpVertexShaderRegs, sizeof(cpVertexShaderRegs));
 
-    modelMatrixLocation = 0;
+    modelMatrixLocation      = 0;
     projectionMatrixLocation = 16;
-    viewMatrixLocation = 32;
-    vertexShader.addUniformVar((GX2UniformVar) {
-            "modelMatrix", GX2_SHADER_VAR_TYPE_FLOAT4X4, 1, modelMatrixLocation, -1
-    });
-    vertexShader.addUniformVar((GX2UniformVar) {
-            "viewMatrix", GX2_SHADER_VAR_TYPE_FLOAT4X4, 1, projectionMatrixLocation, -1
-    });
-    vertexShader.addUniformVar((GX2UniformVar) {
-            "projectionMatrix", GX2_SHADER_VAR_TYPE_FLOAT4X4, 1, viewMatrixLocation, -1
-    });
+    viewMatrixLocation       = 32;
+    vertexShader.addUniformVar((GX2UniformVar){
+            "modelMatrix", GX2_SHADER_VAR_TYPE_FLOAT4X4, 1, modelMatrixLocation, -1});
+    vertexShader.addUniformVar((GX2UniformVar){
+            "viewMatrix", GX2_SHADER_VAR_TYPE_FLOAT4X4, 1, projectionMatrixLocation, -1});
+    vertexShader.addUniformVar((GX2UniformVar){
+            "projectionMatrix", GX2_SHADER_VAR_TYPE_FLOAT4X4, 1, viewMatrixLocation, -1});
 
     positionLocation = 0;
     texCoordLocation = 1;
-    vertexShader.addAttribVar((GX2AttribVar) {
-            "attr_position", GX2_SHADER_VAR_TYPE_FLOAT4, 0, positionLocation
-    });
-    vertexShader.addAttribVar((GX2AttribVar) {
-            "attr_texture_coord", GX2_SHADER_VAR_TYPE_FLOAT2, 0, texCoordLocation
-    });
+    vertexShader.addAttribVar((GX2AttribVar){
+            "attr_position", GX2_SHADER_VAR_TYPE_FLOAT4, 0, positionLocation});
+    vertexShader.addAttribVar((GX2AttribVar){
+            "attr_texture_coord", GX2_SHADER_VAR_TYPE_FLOAT2, 0, texCoordLocation});
 
     //! setup attribute streams
     GX2InitAttribStream(vertexShader.getAttributeBuffer(0), positionLocation, 0, 0, GX2_ATTRIB_FORMAT_FLOAT_32_32_32);
@@ -243,11 +230,11 @@ Shader3D::Shader3D()
 
     //! initialize default quad texture vertexes as those are very commonly used
     //! model vertex has to be align and cannot be in unknown regions for GX2 like 0xBCAE1000
-    posVtxs = (float *) memalign(GX2_VERTEX_BUFFER_ALIGNMENT, ciPositionVtxsSize);
+    posVtxs   = (float *) memalign(GX2_VERTEX_BUFFER_ALIGNMENT, ciPositionVtxsSize);
     texCoords = (float *) memalign(GX2_VERTEX_BUFFER_ALIGNMENT, ciTexCoordsVtxsSize);
 
     //! position vertex structure and texture coordinate vertex structure
-    int32_t i = 0;
+    int32_t i    = 0;
     posVtxs[i++] = -1.0f;
     posVtxs[i++] = -1.0f;
     posVtxs[i++] = 0.0f;
@@ -262,7 +249,7 @@ Shader3D::Shader3D()
     posVtxs[i++] = 0.0f;
     GX2Invalidate(GX2_INVALIDATE_MODE_CPU_ATTRIBUTE_BUFFER, posVtxs, ciPositionVtxsSize);
 
-    i = 0;
+    i              = 0;
     texCoords[i++] = 0.0f;
     texCoords[i++] = 1.0f;
     texCoords[i++] = 1.0f;

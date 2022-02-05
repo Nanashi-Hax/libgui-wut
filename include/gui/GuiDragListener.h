@@ -17,10 +17,10 @@
 #ifndef GUI_DRAG_LISTENER_H_
 #define GUI_DRAG_LISTENER_H_
 
-#include <gui/GuiElement.h>
-#include <gui/GuiController.h>
-#include <gui/GuiTrigger.h>
 #include <gui/GuiButton.h>
+#include <gui/GuiController.h>
+#include <gui/GuiElement.h>
+#include <gui/GuiTrigger.h>
 
 class GuiDragListener : public GuiElement {
 public:
@@ -44,6 +44,7 @@ public:
     void update(GuiController *c);
 
     sigslot::signal5<GuiDragListener *, const GuiController *, GuiTrigger *, int32_t, int32_t> dragged;
+
 protected:
     static const int32_t iMaxGuiTriggers = 10;
 

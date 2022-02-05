@@ -21,14 +21,14 @@
  * 3. This notice may not be removed or altered from any source
  * distribution.
  ***************************************************************************/
-#include <gui/GuiScrollbar.h>
 #include "utils/utils.h"
+#include <gui/GuiScrollbar.h>
 
 GuiScrollbar::GuiScrollbar(int32_t h)
-        : touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH), wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A) {
-    SelItem = 0;
-    SelInd = 0;
-    PageSize = 0;
+    : touchTrigger(GuiTrigger::CHANNEL_1, GuiTrigger::VPAD_TOUCH), wpadTouchTrigger(GuiTrigger::CHANNEL_2 | GuiTrigger::CHANNEL_3 | GuiTrigger::CHANNEL_4 | GuiTrigger::CHANNEL_5, GuiTrigger::BUTTON_A) {
+    SelItem     = 0;
+    SelInd      = 0;
+    PageSize    = 0;
     EntrieCount = 0;
     SetScrollSpeed(15);
     ScrollState = 0;
@@ -133,10 +133,10 @@ void GuiScrollbar::OnBoxButtonHold(GuiButton *button, const GuiController *contr
 
     if (newSelected <= 0) {
         SelItem = 0;
-        SelInd = 0;
+        SelInd  = 0;
     } else if (newSelected >= EntrieCount - 1) {
         SelItem = (PageSize - 1 < EntrieCount - 1) ? PageSize - 1 : EntrieCount - 1;
-        SelInd = EntrieCount - PageSize;
+        SelInd  = EntrieCount - PageSize;
     } else if (newSelected < PageSize && SelInd == 0 && diff < 0) {
         SelItem = std::max(SelItem + diff, (int32_t) 0);
     } else if (EntrieCount - newSelected < PageSize && SelInd == EntrieCount - PageSize && diff > 0) {
@@ -219,4 +219,3 @@ void GuiScrollbar::update(GuiController *t) {
 
     ++ScrollState;
 }
-

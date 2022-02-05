@@ -101,12 +101,12 @@ protected:
     bool opened;
     std::string captionText;
     GuiFrame valuesFrame;
-    GuiImage *topBackgroundImg = NULL;
+    GuiImage *topBackgroundImg  = NULL;
     GuiImage *topHighlightedImg = NULL;
 
     GuiButton topValueButton;
-    GuiImageData *valueImageData = NULL;
-    GuiImageData *valueSelectedImageData = NULL;
+    GuiImageData *valueImageData            = NULL;
+    GuiImageData *valueSelectedImageData    = NULL;
     GuiImageData *valueHighlightedImageData = NULL;
     GuiText topValueText;
 
@@ -134,7 +134,6 @@ protected:
 
     std::map<GuiButton *, std::string> buttonToValue;
     std::vector<SelectBoxValueButton> valueButtons;
-
 };
 
 #endif

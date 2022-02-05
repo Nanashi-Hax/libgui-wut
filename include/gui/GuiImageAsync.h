@@ -17,10 +17,10 @@
 #ifndef _GUIIMAGEASYNC_H_
 #define _GUIIMAGEASYNC_H_
 
-#include <mutex>
-#include <vector>
 #include <gui/GuiImage.h>
 #include <gui/system/CThread.h>
+#include <mutex>
+#include <vector>
 
 class GuiImageAsync : public GuiImage {
 public:

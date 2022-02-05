@@ -152,7 +152,7 @@ public:
 
     virtual void setSize(float w, float h) {
         //! We calculate the size based on the text.
-        this->width = 0;
+        this->width  = 0;
         this->height = 0;
     }
 
@@ -167,6 +167,7 @@ public:
         SCROLL_HORIZONTAL,
         SCROLL_NONE
     };
+
 protected:
     static FreeTypeGX *presentFont;
     static int32_t presetSSAA;
@@ -193,11 +194,11 @@ protected:
     wchar_t *text;
     std::vector<wchar_t *> textDyn;
     std::vector<uint16_t> textDynWidth;
-    int32_t wrapMode; //!< Wrapping toggle
-    int32_t textScrollPos; //!< Current starting index of text string for scrolling
+    int32_t wrapMode;               //!< Wrapping toggle
+    int32_t textScrollPos;          //!< Current starting index of text string for scrolling
     int32_t textScrollInitialDelay; //!< Delay to wait before starting to scroll
-    int32_t textScrollDelay; //!< Scrolling speed
-    int32_t maxWidth; //!< Maximum width of the generated text object (for text wrapping)
+    int32_t textScrollDelay;        //!< Scrolling speed
+    int32_t maxWidth;               //!< Maximum width of the generated text object (for text wrapping)
     FreeTypeGX *font;
     int32_t currentSize;
     int32_t linestodraw;

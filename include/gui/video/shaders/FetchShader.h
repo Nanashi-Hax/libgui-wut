@@ -22,7 +22,7 @@
 class FetchShader : public Shader {
 public:
     FetchShader(GX2AttribStream *attributes, uint32_t attrCount, GX2FetchShaderType type = GX2_FETCH_SHADER_TESSELLATION_NONE, GX2TessellationMode tess = GX2_TESSELLATION_MODE_DISCRETE)
-            : fetchShader(NULL), fetchShaderProgramm(NULL) {
+        : fetchShader(NULL), fetchShaderProgramm(NULL) {
         uint32_t shaderSize = GX2CalcFetchShaderSizeEx(attrCount, type, tess);
         fetchShaderProgramm = (uint8_t *) memalign(GX2_SHADER_PROGRAM_ALIGNMENT, shaderSize);
         if (fetchShaderProgramm) {

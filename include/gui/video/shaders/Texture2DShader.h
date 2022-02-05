@@ -17,9 +17,9 @@
 #ifndef __TEXTURE_2D_SHADER_H_
 #define __TEXTURE_2D_SHADER_H_
 
-#include <gui/video/shaders/VertexShader.h>
-#include <gui/video/shaders/PixelShader.h>
 #include <gui/video/shaders/FetchShader.h>
+#include <gui/video/shaders/PixelShader.h>
+#include <gui/video/shaders/VertexShader.h>
 
 
 class Texture2DShader : public Shader {
@@ -28,8 +28,8 @@ private:
 
     virtual ~Texture2DShader();
 
-    static const uint32_t cuAttributeCount = 2;
-    static const uint32_t ciPositionVtxsSize = 4 * cuVertexAttrSize;
+    static const uint32_t cuAttributeCount    = 2;
+    static const uint32_t ciPositionVtxsSize  = 4 * cuVertexAttrSize;
     static const uint32_t ciTexCoordsVtxsSize = 4 * cuTexCoordAttrSize;
 
     static Texture2DShader *shaderInstance;
@@ -49,6 +49,7 @@ private:
     uint32_t samplerLocation;
     uint32_t positionLocation;
     uint32_t texCoordLocation;
+
 public:
     static Texture2DShader *instance() {
         if (!shaderInstance) {

@@ -24,8 +24,8 @@
 #ifndef GUI_SCROLLBAR_HPP_
 #define GUI_SCROLLBAR_HPP_
 
-#include <gui/GuiElement.h>
 #include <gui/GuiButton.h>
+#include <gui/GuiElement.h>
 
 class GuiScrollbar : public GuiElement, public sigslot::has_slots<> {
 public:
@@ -139,9 +139,9 @@ protected:
     GuiSound *clickSound = NULL;
 
     GuiImage *scrollbarLineImage = NULL;
-    GuiImage *arrowDownImage = NULL;
-    GuiImage *arrowUpImage = NULL;
-    GuiImage *scrollbarBoxImage = NULL;
+    GuiImage *arrowDownImage     = NULL;
+    GuiImage *arrowUpImage       = NULL;
+    GuiImage *scrollbarBoxImage  = NULL;
 
     GuiTrigger touchTrigger;
     GuiTrigger wpadTouchTrigger;

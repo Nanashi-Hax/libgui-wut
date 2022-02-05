@@ -18,12 +18,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <gui/video/CursorDrawer.h>
 #include <gui/video/shaders/ColorShader.h>
 #include <gui/video/shaders/FXAAShader.h>
 #include <gui/video/shaders/Shader3D.h>
 #include <gui/video/shaders/ShaderFractalColor.h>
 #include <gui/video/shaders/Texture2DShader.h>
-#include <gui/video/CursorDrawer.h>
 
 CursorDrawer *CursorDrawer::instance = NULL;
 
@@ -48,7 +48,6 @@ void CursorDrawer::init_colorVtxs() {
     if (!this->colorVtxs) {
         this->colorVtxs = (uint8_t *) memalign(0x40, sizeof(uint8_t) * 16);
         if (this->colorVtxs == NULL) { return; }
-
     }
     memset(this->colorVtxs, 0xFF, 16 * sizeof(uint8_t));
 
@@ -62,7 +61,7 @@ void CursorDrawer::draw_Cursor(float x, float y) {
         return;
     }
 
-    float widthScaleFactor = 1.0f / (float) 1280;
+    float widthScaleFactor  = 1.0f / (float) 1280;
     float heightScaleFactor = 1.0f / (float) 720;
 
     int32_t width = 20;

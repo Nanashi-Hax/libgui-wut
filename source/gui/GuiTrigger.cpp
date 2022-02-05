@@ -14,19 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
-#include <gui/GuiElement.h>
 #include <gui/GuiController.h>
+#include <gui/GuiElement.h>
 #include <gui/GuiTrigger.h>
 
 /**
  * Constructor for the GuiTrigger class.
  */
 GuiTrigger::GuiTrigger()
-        : chan(CHANNEL_ALL), btns(BUTTON_NONE), bClickEverywhere(false), bHoldEverywhere(false), bSelectionClickEverywhere(false), bLastTouched(false) {
+    : chan(CHANNEL_ALL), btns(BUTTON_NONE), bClickEverywhere(false), bHoldEverywhere(false), bSelectionClickEverywhere(false), bLastTouched(false) {
 }
 
 GuiTrigger::GuiTrigger(uint32_t ch, uint32_t btn, bool clickEverywhere, bool holdEverywhere, bool selectionClickEverywhere)
-        : chan(ch), btns(btn), bClickEverywhere(clickEverywhere), bHoldEverywhere(holdEverywhere), bSelectionClickEverywhere(selectionClickEverywhere), bLastTouched(false) {
+    : chan(ch), btns(btn), bClickEverywhere(clickEverywhere), bHoldEverywhere(holdEverywhere), bSelectionClickEverywhere(selectionClickEverywhere), bLastTouched(false) {
 }
 
 /**
@@ -141,4 +141,3 @@ bool GuiTrigger::released(const GuiController *controller) const {
 
     return bResult;
 }
-

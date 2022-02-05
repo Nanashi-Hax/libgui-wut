@@ -17,10 +17,10 @@
 #ifndef GUI_IMAGE_H_
 #define GUI_IMAGE_H_
 
-#include <gui/video/shaders/Shader.h>
 #include <gui/GuiElement.h>
 #include <gui/GuiImageData.h>
 #include <gui/gx2_ext.h>
+#include <gui/video/shaders/Shader.h>
 
 //!Display, manage, and manipulate images in the GUI
 class GuiImage : public GuiElement {
@@ -103,10 +103,10 @@ public:
 protected:
     void internalInit(int32_t w, int32_t h);
 
-    int32_t imgType;                //!< Type of image data (IMAGE_TEXTURE, IMAGE_COLOR, IMAGE_DATA)
-    GuiImageData *imageData;   //!< Poiner to image data. May be shared with GuiImageData data
-    int32_t tileHorizontal;         //!< Number of times to draw (tile) the image horizontally
-    int32_t tileVertical;           //!< Number of times to draw (tile) the image vertically
+    int32_t imgType;         //!< Type of image data (IMAGE_TEXTURE, IMAGE_COLOR, IMAGE_DATA)
+    GuiImageData *imageData; //!< Poiner to image data. May be shared with GuiImageData data
+    int32_t tileHorizontal;  //!< Number of times to draw (tile) the image horizontally
+    int32_t tileVertical;    //!< Number of times to draw (tile) the image vertically
 
     //! Internally used variables for rendering
     uint8_t *colorVtxs;

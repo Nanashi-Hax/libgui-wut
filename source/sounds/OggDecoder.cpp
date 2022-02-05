@@ -23,12 +23,12 @@
  *
  * for WiiXplorer 2010
  ***************************************************************************/
-#include <unistd.h>
-#include <malloc.h>
-#include <coreinit/time.h>
-#include <coreinit/thread.h>
-#include <gui/sounds/OggDecoder.hpp>
 #include "fs/CFile.hpp"
+#include <coreinit/thread.h>
+#include <coreinit/time.h>
+#include <gui/sounds/OggDecoder.hpp>
+#include <malloc.h>
+#include <unistd.h>
 
 static int ogg_read(void *punt, int bytes, int blocks, int *f) {
     return ((CFile *) f)->read((uint8_t *) punt, bytes * blocks);
@@ -48,14 +48,13 @@ static long ogg_tell(int *f) {
 }
 
 static ov_callbacks callbacks = {
-        (size_t (*)(void *, size_t, size_t, void *)) ogg_read,
+        (size_t(*)(void *, size_t, size_t, void *)) ogg_read,
         (int (*)(void *, ogg_int64_t, int)) ogg_seek,
         (int (*)(void *)) ogg_close,
-        (long (*)(void *)) ogg_tell
-};
+        (long (*)(void *)) ogg_tell};
 
 OggDecoder::OggDecoder(const char *filepath)
-        : SoundDecoder(filepath) {
+    : SoundDecoder(filepath) {
     SoundType = SOUND_OGG;
 
     if (!file_fd) {
@@ -66,7 +65,7 @@ OggDecoder::OggDecoder(const char *filepath)
 }
 
 OggDecoder::OggDecoder(const uint8_t *snd, int32_t len)
-        : SoundDecoder(snd, len) {
+    : SoundDecoder(snd, len) {
     SoundType = SOUND_OGG;
 
     if (!file_fd) {
@@ -101,7 +100,7 @@ void OggDecoder::OpenFile() {
         return;
     }
 
-    Format = ((ogg_info->channels == 2) ? (FORMAT_PCM_16_BIT | CHANNELS_STEREO) : (FORMAT_PCM_16_BIT | CHANNELS_MONO));
+    Format     = ((ogg_info->channels == 2) ? (FORMAT_PCM_16_BIT | CHANNELS_STEREO) : (FORMAT_PCM_16_BIT | CHANNELS_MONO));
     SampleRate = ogg_info->rate;
 }
 
@@ -111,8 +110,8 @@ int32_t OggDecoder::Rewind() {
     }
 
     int32_t ret = ov_time_seek(&ogg_file, 0);
-    CurPos = 0;
-    EndOfFile = false;
+    CurPos      = 0;
+    EndOfFile   = false;
 
     return ret;
 }

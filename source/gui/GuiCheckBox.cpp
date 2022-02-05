@@ -23,7 +23,7 @@
  */
 
 GuiCheckBox::GuiCheckBox(GuiImage *background, bool checked, float width, float height)
-        : GuiToggle(checked, width, height) {
+    : GuiToggle(checked, width, height) {
     setImageBackground(background);
 }
 
@@ -31,7 +31,6 @@ GuiCheckBox::GuiCheckBox(GuiImage *background, bool checked, float width, float 
  * Destructor for the GuiCheckBox class.
  */
 GuiCheckBox::~GuiCheckBox() {
-
 }
 
 void GuiCheckBox::setImageBackground(GuiImage *img) {

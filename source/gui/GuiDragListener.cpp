@@ -15,15 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
-#include <gui/GuiDragListener.h>
 #include <gui/GuiController.h>
+#include <gui/GuiDragListener.h>
 
 /**
  * Constructor for the GuiDragListener class.
  */
 
 GuiDragListener::GuiDragListener(float w, float h) {
-    width = w;
+    width  = w;
     height = h;
     for (int32_t i = 0; i < iMaxGuiTriggers; i++) {
         trigger[i] = NULL;

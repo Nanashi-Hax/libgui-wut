@@ -14,18 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
-#include <malloc.h>
-#include <string.h>
-#include <stdint.h>
 #include <gui/GuiImageData.h>
 #include <gui/memory.h>
+#include <malloc.h>
+#include <stdint.h>
+#include <string.h>
 
 /**
  * Constructor for the GuiImageData class.
  */
 GuiImageData::GuiImageData() {
-    texture = NULL;
-    sampler = NULL;
+    texture    = NULL;
+    sampler    = NULL;
     memoryType = eMemTypeMEM2;
 }
 
@@ -90,7 +90,7 @@ void GuiImageData::loadImage(const uint8_t *img, int32_t imgSize, GX2TexClampMod
         // IMAGE_PNG
         gdImg = gdImageCreateFromPngPtr(imgSize, (uint8_t *) img);
     }
-        //!This must be last since it can also intefere with outher formats
+    //!This must be last since it can also intefere with outher formats
     else if (img[0] == 0x00) {
         // Try loading TGA image
         gdImg = gdImageCreateFromTgaPtr(imgSize, (uint8_t *) img);
@@ -100,7 +100,7 @@ void GuiImageData::loadImage(const uint8_t *img, int32_t imgSize, GX2TexClampMod
         return;
     }
 
-    uint32_t width = (gdImageSX(gdImg));
+    uint32_t width  = (gdImageSX(gdImg));
     uint32_t height = (gdImageSY(gdImg));
 
     //! Initialize texture
@@ -116,16 +116,16 @@ void GuiImageData::loadImage(const uint8_t *img, int32_t imgSize, GX2TexClampMod
     }
 
     //! allocate memory for the surface
-    memoryType = eMemTypeMEM2;
+    memoryType             = eMemTypeMEM2;
     texture->surface.image = memalign(texture->surface.alignment, texture->surface.imageSize);
     //! try MEM1 on failure
     if (!texture->surface.image) {
-        memoryType = eMemTypeMEM1;
+        memoryType             = eMemTypeMEM1;
         texture->surface.image = MEM1_alloc(texture->surface.imageSize, texture->surface.alignment);
     }
     //! try MEM bucket on failure
     if (!texture->surface.image) {
-        memoryType = eMemTypeMEMBucket;
+        memoryType             = eMemTypeMEMBucket;
         texture->surface.image = MEMBucket_alloc(texture->surface.imageSize, texture->surface.alignment);
     }
     //! check if memory is available for image

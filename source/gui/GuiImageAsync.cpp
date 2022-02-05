@@ -14,25 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
-#include <unistd.h>
-#include <gui/GuiImageAsync.h>
 #include "../fs/CFile.hpp"
+#include <gui/GuiImageAsync.h>
+#include <unistd.h>
 
 std::vector<GuiImageAsync *> GuiImageAsync::imageQueue;
-CThread *GuiImageAsync::pThread = NULL;
+CThread *GuiImageAsync::pThread             = NULL;
 std::recursive_mutex *GuiImageAsync::pMutex = NULL;
-uint32_t GuiImageAsync::threadRefCounter = 0;
-bool GuiImageAsync::bExitRequested = false;
-GuiImageAsync *GuiImageAsync::pInUse = NULL;
+uint32_t GuiImageAsync::threadRefCounter    = 0;
+bool GuiImageAsync::bExitRequested          = false;
+GuiImageAsync *GuiImageAsync::pInUse        = NULL;
 
 GuiImageAsync::GuiImageAsync(const uint8_t *imageBuffer, const uint32_t &imageBufferSize, GuiImageData *preloadImg)
-        : GuiImage(preloadImg), imgData(NULL), imgBuffer(imageBuffer), imgBufferSize(imageBufferSize) {
+    : GuiImage(preloadImg), imgData(NULL), imgBuffer(imageBuffer), imgBufferSize(imageBufferSize) {
     threadInit();
     threadAddImage(this);
 }
 
 GuiImageAsync::GuiImageAsync(const std::string &file, GuiImageData *preloadImg)
-        : GuiImage(preloadImg), imgData(NULL), filename(file), imgBuffer(NULL), imgBufferSize(0) {
+    : GuiImage(preloadImg), imgData(NULL), filename(file), imgBuffer(NULL), imgBufferSize(0) {
     threadInit();
     threadAddImage(this);
 }
@@ -93,17 +93,17 @@ void GuiImageAsync::guiImageAsyncThread(CThread *thread, void *arg) {
             if (pInUse->imgBuffer && pInUse->imgBufferSize) {
                 pInUse->imgData = new GuiImageData(pInUse->imgBuffer, pInUse->imgBufferSize);
             } else {
-                uint8_t *buffer = NULL;
+                uint8_t *buffer     = NULL;
                 uint64_t bufferSize = 0;
 
                 CFile file(pInUse->filename, CFile::ReadOnly);
                 if (file.isOpen()) {
                     uint64_t filesize = file.size();
-                    buffer = (uint8_t *) malloc(filesize);
+                    buffer            = (uint8_t *) malloc(filesize);
                     if (buffer != NULL) {
                         uint32_t blocksize = 0x4000;
-                        uint32_t done = 0;
-                        int32_t readBytes = 0;
+                        uint32_t done      = 0;
+                        int32_t readBytes  = 0;
                         while (done < filesize) {
                             if (done + blocksize > filesize) {
                                 blocksize = filesize - done;
@@ -133,8 +133,8 @@ void GuiImageAsync::guiImageAsyncThread(CThread *thread, void *arg) {
 
             if (pInUse->imgData) {
                 if (pInUse->imgData->getTexture()) {
-                    pInUse->width = pInUse->imgData->getWidth();
-                    pInUse->height = pInUse->imgData->getHeight();
+                    pInUse->width     = pInUse->imgData->getWidth();
+                    pInUse->height    = pInUse->imgData->getHeight();
                     pInUse->imageData = pInUse->imgData;
                 } else {
                     delete pInUse->imgData;
@@ -150,8 +150,8 @@ void GuiImageAsync::guiImageAsyncThread(CThread *thread, void *arg) {
 void GuiImageAsync::threadInit() {
     if (pThread == NULL) {
         bExitRequested = false;
-        pMutex = new std::recursive_mutex();
-        pThread = CThread::create(GuiImageAsync::guiImageAsyncThread, NULL, CThread::eAttributeAffCore1 | CThread::eAttributePinnedAff, 10);
+        pMutex         = new std::recursive_mutex();
+        pThread        = CThread::create(GuiImageAsync::guiImageAsyncThread, NULL, CThread::eAttributeAffCore1 | CThread::eAttributePinnedAff, 10);
         pThread->resumeThread();
     }
 
@@ -168,6 +168,6 @@ void GuiImageAsync::threadExit() {
         delete pThread;
         delete pMutex;
         pThread = NULL;
-        pMutex = NULL;
+        pMutex  = NULL;
     }
 }

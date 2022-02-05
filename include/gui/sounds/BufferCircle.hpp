@@ -26,8 +26,9 @@
 #ifndef BUFFER_CIRCLE_HPP_
 #define BUFFER_CIRCLE_HPP_
 
-#include <vector>
+#include <cstddef>
 #include <stdint.h>
+#include <vector>
 
 class BufferCircle {
 public:
@@ -67,8 +68,11 @@ public:
 
     //!> Get a buffer at a position
     uint8_t *GetBuffer(int32_t pos) {
-        if (!Valid(pos)) { return NULL; }
-        else { return SoundBuffer[pos]; }
+        if (!Valid(pos)) {
+            return NULL;
+        } else {
+            return SoundBuffer[pos];
+        }
     };
 
     //!> Get current buffer size
@@ -78,8 +82,11 @@ public:
 
     //!> Get buffer size at position
     uint32_t GetBufferSize(int32_t pos) {
-        if (!Valid(pos)) { return 0; }
-        else { return BufferSize[pos]; }
+        if (!Valid(pos)) {
+            return 0;
+        } else {
+            return BufferSize[pos];
+        }
     };
 
     //!> Is current buffer ready
@@ -89,8 +96,11 @@ public:
 
     //!> Is  a buffer at a position ready
     bool IsBufferReady(int32_t pos) {
-        if (!Valid(pos)) { return false; }
-        else { return BufferReady[pos]; }
+        if (!Valid(pos)) {
+            return false;
+        } else {
+            return BufferReady[pos];
+        }
     };
 
     //!> Set a buffer at a position to a ready state
@@ -110,8 +120,11 @@ public:
     }
 
     inline uint16_t Prev() {
-        if (Size() == 0) { return 0; }
-        else { return ((int32_t) which - 1 < 0) ? Size() - 1 : which - 1; }
+        if (Size() == 0) {
+            return 0;
+        } else {
+            return ((int32_t) which - 1 < 0) ? Size() - 1 : which - 1;
+        }
     }
 
 protected:

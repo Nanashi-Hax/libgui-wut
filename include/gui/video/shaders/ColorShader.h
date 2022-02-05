@@ -17,9 +17,9 @@
 #ifndef __COLOR_SHADER_H_
 #define __COLOR_SHADER_H_
 
-#include <gui/video/shaders/VertexShader.h>
-#include <gui/video/shaders/PixelShader.h>
 #include <gui/video/shaders/FetchShader.h>
+#include <gui/video/shaders/PixelShader.h>
+#include <gui/video/shaders/VertexShader.h>
 
 class ColorShader : public Shader {
 private:
@@ -27,7 +27,7 @@ private:
 
     virtual ~ColorShader();
 
-    static const uint32_t cuAttributeCount = 2;
+    static const uint32_t cuAttributeCount   = 2;
     static const uint32_t cuPositionVtxsSize = 4 * cuVertexAttrSize;
 
     static ColorShader *shaderInstance;
@@ -44,6 +44,7 @@ private:
     uint32_t colorLocation;
     uint32_t colorIntensityLocation;
     uint32_t positionLocation;
+
 public:
     static const uint32_t cuColorVtxsSize = 4 * cuColorAttrSize;
 

@@ -21,45 +21,45 @@
 #include <vector>
 
 #include <malloc.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <wchar.h>
-#include <math.h>
 
 #include <gui/gx2_ext.h>
 
-#include <gui/sigslot.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <gui/sigslot.h>
 
 
 enum {
-    EFFECT_NONE =               0x00,
-    EFFECT_SLIDE_TOP =          0x01,
-    EFFECT_SLIDE_BOTTOM =       0x02,
-    EFFECT_SLIDE_RIGHT =        0x04,
-    EFFECT_SLIDE_LEFT =         0x08,
-    EFFECT_SLIDE_IN =           0x10,
-    EFFECT_SLIDE_OUT =          0x20,
-    EFFECT_SLIDE_FROM =         0x40,
-    EFFECT_FADE =               0x80,
-    EFFECT_SCALE =              0x100,
-    EFFECT_COLOR_TRANSITION =   0x200
+    EFFECT_NONE             = 0x00,
+    EFFECT_SLIDE_TOP        = 0x01,
+    EFFECT_SLIDE_BOTTOM     = 0x02,
+    EFFECT_SLIDE_RIGHT      = 0x04,
+    EFFECT_SLIDE_LEFT       = 0x08,
+    EFFECT_SLIDE_IN         = 0x10,
+    EFFECT_SLIDE_OUT        = 0x20,
+    EFFECT_SLIDE_FROM       = 0x40,
+    EFFECT_FADE             = 0x80,
+    EFFECT_SCALE            = 0x100,
+    EFFECT_COLOR_TRANSITION = 0x200
 };
 
 enum {
-    ALIGN_LEFT =        0x01,
-    ALIGN_CENTER =      0x02,
-    ALIGN_RIGHT =       0x04,
-    ALIGN_TOP =         0x10,
-    ALIGN_MIDDLE =      0x20,
-    ALIGN_BOTTOM =      0x40,
-    ALIGN_TOP_LEFT =    ALIGN_LEFT | ALIGN_TOP,
-    ALIGN_TOP_CENTER =  ALIGN_CENTER | ALIGN_TOP,
-    ALIGN_TOP_RIGHT =   ALIGN_RIGHT | ALIGN_TOP,
-    ALIGN_CENTERED =    ALIGN_CENTER | ALIGN_MIDDLE,
+    ALIGN_LEFT       = 0x01,
+    ALIGN_CENTER     = 0x02,
+    ALIGN_RIGHT      = 0x04,
+    ALIGN_TOP        = 0x10,
+    ALIGN_MIDDLE     = 0x20,
+    ALIGN_BOTTOM     = 0x40,
+    ALIGN_TOP_LEFT   = ALIGN_LEFT | ALIGN_TOP,
+    ALIGN_TOP_CENTER = ALIGN_CENTER | ALIGN_TOP,
+    ALIGN_TOP_RIGHT  = ALIGN_RIGHT | ALIGN_TOP,
+    ALIGN_CENTERED   = ALIGN_CENTER | ALIGN_MIDDLE,
 };
 
 //!Forward declaration
@@ -154,21 +154,21 @@ public:
 
         if (alignment & ALIGN_TOP) {
             float pHeight = 0.0f;
-            float pScale = 0.0f;
+            float pScale  = 0.0f;
 
             if (parentElement) {
                 pHeight = parentElement->getHeight();
-                pScale = parentElement->getScaleY();
+                pScale  = parentElement->getScaleY();
             }
 
             pCenterY += pHeight * 0.5f * pScale - getHeight() * 0.5f * getScaleY();
         } else if (alignment & ALIGN_BOTTOM) {
             float pHeight = 0.0f;
-            float pScale = 0.0f;
+            float pScale  = 0.0f;
 
             if (parentElement) {
                 pHeight = parentElement->getHeight();
-                pScale = parentElement->getScaleY();
+                pScale  = parentElement->getScaleY();
             }
 
             pCenterY -= pHeight * 0.5f * pScale - getHeight() * 0.5f * getScaleY();
@@ -202,7 +202,7 @@ public:
     //!\param w Width of element
     //!\param h Height of element
     virtual void setSize(float w, float h) {
-        width = w;
+        width  = w;
         height = h;
     }
 
@@ -471,10 +471,7 @@ public:
     //!\param y Y coordinate
     //!\return true if contained within, false otherwise
     virtual bool isInside(float x, float y) {
-        return (x > (this->getCenterX() - getScaleX() * getWidth() * 0.5f)
-                && x < (this->getCenterX() + getScaleX() * getWidth() * 0.5f)
-                && y > (this->getCenterY() - getScaleY() * getHeight() * 0.5f)
-                && y < (this->getCenterY() + getScaleY() * getHeight() * 0.5f));
+        return (x > (this->getCenterX() - getScaleX() * getWidth() * 0.5f) && x < (this->getCenterX() + getScaleX() * getWidth() * 0.5f) && y > (this->getCenterY() - getScaleY() * getHeight() * 0.5f) && y < (this->getCenterY() + getScaleY() * getHeight() * 0.5f));
     }
 
     //!Sets the element's position
@@ -545,15 +542,15 @@ public:
     } POINT;
 
     enum {
-        STATE_DEFAULT = 0,
-        STATE_SELECTED = 0x01,
-        STATE_CLICKED = 0x02,
-        STATE_HELD = 0x04,
-        STATE_OVER = 0x08,
-        STATE_HIDDEN = 0x10,
+        STATE_DEFAULT       = 0,
+        STATE_SELECTED      = 0x01,
+        STATE_CLICKED       = 0x02,
+        STATE_HELD          = 0x04,
+        STATE_OVER          = 0x08,
+        STATE_HIDDEN        = 0x10,
         STATE_DISABLE_INPUT = 0x20,
         STATE_CLICKED_TOUCH = 0x40,
-        STATE_DISABLED = 0x80
+        STATE_DISABLED      = 0x80
     };
 
     //! Switch pointer from control to screen position
@@ -574,37 +571,38 @@ public:
     sigslot::signal2<GuiElement *, bool> visibleChanged;
     sigslot::signal3<GuiElement *, int32_t, int32_t> stateChanged;
     sigslot::signal1<GuiElement *> effectFinished;
+
 protected:
-    bool rumble; //!< Wiimote rumble (on/off) - set to on when this element requests a rumble event
-    bool visible; //!< Visibility of the element. If false, Draw() is skipped
-    bool selectable; //!< Whether or not this element selectable (can change to SELECTED state)
-    bool clickable; //!< Whether or not this element is clickable (can change to CLICKED state)
-    bool holdable; //!< Whether or not this element is holdable (can change to HELD state)
+    bool rumble;                   //!< Wiimote rumble (on/off) - set to on when this element requests a rumble event
+    bool visible;                  //!< Visibility of the element. If false, Draw() is skipped
+    bool selectable;               //!< Whether or not this element selectable (can change to SELECTED state)
+    bool clickable;                //!< Whether or not this element is clickable (can change to CLICKED state)
+    bool holdable;                 //!< Whether or not this element is holdable (can change to HELD state)
     bool drawOverOnlyWhenSelected; //!< Whether or not this element is holdable (can change to HELD state)
-    float width; //!< Element width
-    float height; //!< Element height
-    float xoffset; //!< Element X offset
-    float yoffset; //!< Element Y offset
-    float zoffset; //!< Element Z offset
-    float alpha; //!< Element alpha value (0-255)
-    float angle; //!< Angle of the object (0-360)
-    float scaleX; //!< Element scale (1 = 100%)
-    float scaleY; //!< Element scale (1 = 100%)
-    float scaleZ; //!< Element scale (1 = 100%)
-    int32_t alignment; //!< Horizontal element alignment, respective to parent element
-    int32_t state[5]; //!< Element state (DEFAULT, SELECTED, CLICKED, DISABLED)
-    int32_t stateChan; //!< Which controller channel is responsible for the last change in state
-    GuiElement *parentElement; //!< Parent element
+    float width;                   //!< Element width
+    float height;                  //!< Element height
+    float xoffset;                 //!< Element X offset
+    float yoffset;                 //!< Element Y offset
+    float zoffset;                 //!< Element Z offset
+    float alpha;                   //!< Element alpha value (0-255)
+    float angle;                   //!< Angle of the object (0-360)
+    float scaleX;                  //!< Element scale (1 = 100%)
+    float scaleY;                  //!< Element scale (1 = 100%)
+    float scaleZ;                  //!< Element scale (1 = 100%)
+    int32_t alignment;             //!< Horizontal element alignment, respective to parent element
+    int32_t state[5];              //!< Element state (DEFAULT, SELECTED, CLICKED, DISABLED)
+    int32_t stateChan;             //!< Which controller channel is responsible for the last change in state
+    GuiElement *parentElement;     //!< Parent element
 
     //! TODO: Move me to some Animator class
-    int32_t xoffsetDyn; //!< Element X offset, dynamic (added to xoffset value for animation effects)
-    int32_t yoffsetDyn; //!< Element Y offset, dynamic (added to yoffset value for animation effects)
-    float alphaDyn; //!< Element alpha, dynamic (multiplied by alpha value for blending/fading effects)
-    float scaleDyn; //!< Element scale, dynamic (multiplied by alpha value for blending/fading effects)
-    int32_t effects; //!< Currently enabled effect(s). 0 when no effects are enabled
-    int32_t effectAmount; //!< Effect amount. Used by different effects for different purposes
-    int32_t effectTarget; //!< Effect target amount. Used by different effects for different purposes
-    int32_t effectsOver; //!< Effects to enable when wiimote cursor is over this element. Copied to effects variable on over event
+    int32_t xoffsetDyn;       //!< Element X offset, dynamic (added to xoffset value for animation effects)
+    int32_t yoffsetDyn;       //!< Element Y offset, dynamic (added to yoffset value for animation effects)
+    float alphaDyn;           //!< Element alpha, dynamic (multiplied by alpha value for blending/fading effects)
+    float scaleDyn;           //!< Element scale, dynamic (multiplied by alpha value for blending/fading effects)
+    int32_t effects;          //!< Currently enabled effect(s). 0 when no effects are enabled
+    int32_t effectAmount;     //!< Effect amount. Used by different effects for different purposes
+    int32_t effectTarget;     //!< Effect target amount. Used by different effects for different purposes
+    int32_t effectsOver;      //!< Effects to enable when wiimote cursor is over this element. Copied to effects variable on over event
     int32_t effectAmountOver; //!< EffectAmount to set when wiimote cursor is over this element
     int32_t effectTargetOver; //!< EffectTarget to set when wiimote cursor is over this element
 };

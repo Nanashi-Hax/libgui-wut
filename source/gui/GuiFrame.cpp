@@ -18,9 +18,9 @@
 
 GuiFrame::GuiFrame(GuiFrame *p) {
     parent = p;
-    width = 0;
+    width  = 0;
     height = 0;
-    dim = false;
+    dim    = false;
 
     if (parent) {
         parent->append(this);
@@ -29,9 +29,9 @@ GuiFrame::GuiFrame(GuiFrame *p) {
 
 GuiFrame::GuiFrame(float w, float h, GuiFrame *p) {
     parent = p;
-    width = w;
+    width  = w;
     height = h;
-    dim = false;
+    dim    = false;
 
     if (parent) {
         parent->append(this);

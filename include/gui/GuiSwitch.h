@@ -17,9 +17,9 @@
 #ifndef GUI_SWTICH_H_
 #define GUI_SWTICH_H_
 
-#include <gui/GuiToggle.h>
 #include <gui/GuiImage.h>
 #include <gui/GuiImageData.h>
+#include <gui/GuiToggle.h>
 
 //!A simple switch
 class GuiSwitch : public GuiToggle {
@@ -40,10 +40,9 @@ public:
     void setImageHighlighted(GuiImage *img);
 
 protected:
-
-    GuiImage *backgroundImg = NULL;
-    GuiImage *onImg = NULL;
-    GuiImage *offImg = NULL;
+    GuiImage *backgroundImg  = NULL;
+    GuiImage *onImg          = NULL;
+    GuiImage *offImg         = NULL;
     GuiImage *highlightedImg = NULL;
 
     void draw(CVideo *v);

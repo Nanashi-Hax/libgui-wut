@@ -23,24 +23,24 @@
  *
  * for WiiXplorer 2010
  ***************************************************************************/
-#include <unistd.h>
-#include <malloc.h>
 #include <fs/CFile.hpp>
-#include <gui/sounds/SoundHandler.hpp>
-#include <gui/sounds/WavDecoder.hpp>
 #include <gui/sounds/Mp3Decoder.hpp>
 #include <gui/sounds/OggDecoder.hpp>
+#include <gui/sounds/SoundHandler.hpp>
+#include <gui/sounds/WavDecoder.hpp>
+#include <malloc.h>
 #include <sndcore2/core.h>
+#include <unistd.h>
 
 SoundHandler *SoundHandler::handlerInstance = NULL;
 
 SoundHandler::SoundHandler()
-        : CThread(CThread::eAttributeAffCore1 | CThread::eAttributePinnedAff, 0, 0x8000) {
-    Decoding = false;
+    : CThread(CThread::eAttributeAffCore1 | CThread::eAttributePinnedAff, 0, 0x8000) {
+    Decoding      = false;
     ExitRequested = false;
     for (uint32_t i = 0; i < MAX_DECODERS; ++i) {
         DecoderList[i] = NULL;
-        voiceList[i] = NULL;
+        voiceList[i]   = NULL;
     }
 
     resumeThread();
@@ -115,19 +115,19 @@ void SoundHandler::ClearDecoderList() {
 
 static inline bool CheckMP3Signature(const uint8_t *buffer) {
     const char MP3_Magic[][3] = {
-            {'I',  'D', '3'},    //'ID3'
-            {0xff, 0xfe},       //'MPEG ADTS, layer III, v1.0 [protected]', 'mp3', 'audio/mpeg'),
-            {0xff, 0xff},       //'MPEG ADTS, layer III, v1.0', 'mp3', 'audio/mpeg'),
-            {0xff, 0xfa},       //'MPEG ADTS, layer III, v1.0 [protected]', 'mp3', 'audio/mpeg'),
-            {0xff, 0xfb},       //'MPEG ADTS, layer III, v1.0', 'mp3', 'audio/mpeg'),
-            {0xff, 0xf2},       //'MPEG ADTS, layer III, v2.0 [protected]', 'mp3', 'audio/mpeg'),
-            {0xff, 0xf3},       //'MPEG ADTS, layer III, v2.0', 'mp3', 'audio/mpeg'),
-            {0xff, 0xf4},       //'MPEG ADTS, layer III, v2.0 [protected]', 'mp3', 'audio/mpeg'),
-            {0xff, 0xf5},       //'MPEG ADTS, layer III, v2.0', 'mp3', 'audio/mpeg'),
-            {0xff, 0xf6},       //'MPEG ADTS, layer III, v2.0 [protected]', 'mp3', 'audio/mpeg'),
-            {0xff, 0xf7},       //'MPEG ADTS, layer III, v2.0', 'mp3', 'audio/mpeg'),
-            {0xff, 0xe2},       //'MPEG ADTS, layer III, v2.5 [protected]', 'mp3', 'audio/mpeg'),
-            {0xff, 0xe3},       //'MPEG ADTS, layer III, v2.5', 'mp3', 'audio/mpeg'),
+            {'I', 'D', '3'}, //'ID3'
+            {0xff, 0xfe},    //'MPEG ADTS, layer III, v1.0 [protected]', 'mp3', 'audio/mpeg'),
+            {0xff, 0xff},    //'MPEG ADTS, layer III, v1.0', 'mp3', 'audio/mpeg'),
+            {0xff, 0xfa},    //'MPEG ADTS, layer III, v1.0 [protected]', 'mp3', 'audio/mpeg'),
+            {0xff, 0xfb},    //'MPEG ADTS, layer III, v1.0', 'mp3', 'audio/mpeg'),
+            {0xff, 0xf2},    //'MPEG ADTS, layer III, v2.0 [protected]', 'mp3', 'audio/mpeg'),
+            {0xff, 0xf3},    //'MPEG ADTS, layer III, v2.0', 'mp3', 'audio/mpeg'),
+            {0xff, 0xf4},    //'MPEG ADTS, layer III, v2.0 [protected]', 'mp3', 'audio/mpeg'),
+            {0xff, 0xf5},    //'MPEG ADTS, layer III, v2.0', 'mp3', 'audio/mpeg'),
+            {0xff, 0xf6},    //'MPEG ADTS, layer III, v2.0 [protected]', 'mp3', 'audio/mpeg'),
+            {0xff, 0xf7},    //'MPEG ADTS, layer III, v2.0', 'mp3', 'audio/mpeg'),
+            {0xff, 0xe2},    //'MPEG ADTS, layer III, v2.5 [protected]', 'mp3', 'audio/mpeg'),
+            {0xff, 0xe3},    //'MPEG ADTS, layer III, v2.5', 'mp3', 'audio/mpeg'),
     };
 
     if (buffer[0] == MP3_Magic[0][0] && buffer[1] == MP3_Magic[0][1] &&
@@ -176,7 +176,7 @@ SoundDecoder *SoundHandler::GetSoundDecoder(const char *filepath) {
 
 SoundDecoder *SoundHandler::GetSoundDecoder(const uint8_t *sound, int32_t length) {
     const uint8_t *check = sound;
-    int32_t counter = 0;
+    int32_t counter      = 0;
 
     while (check[0] == 0 && counter < length) {
         check++;
@@ -224,7 +224,7 @@ void SoundHandler::executeThread() {
     // we would need MAX_DECODERS > Voice::PRIO_MAX
     for (uint32_t i = 0; i < MAX_DECODERS; ++i) {
         int32_t priority = (MAX_DECODERS - i) * Voice::PRIO_MAX / MAX_DECODERS;
-        voiceList[i] = new Voice(priority); // allocate voice 0 with highest priority
+        voiceList[i]     = new Voice(priority); // allocate voice 0 with highest priority
     }
 
     AXRegisterAppFrameCallback(SoundHandler::axFrameCallback);
@@ -279,15 +279,15 @@ void SoundHandler::axFrameCallback(void) {
                 SoundDecoder *decoder = handlerInstance->getDecoder(i);
                 decoder->Lock();
                 if (decoder->IsBufferReady()) {
-                    const uint8_t *buffer = decoder->GetBuffer();
+                    const uint8_t *buffer     = decoder->GetBuffer();
                     const uint32_t bufferSize = decoder->GetBufferSize();
                     decoder->LoadNext();
 
                     const uint8_t *nextBuffer = NULL;
-                    uint32_t nextBufferSize = 0;
+                    uint32_t nextBufferSize   = 0;
 
                     if (decoder->IsBufferReady()) {
-                        nextBuffer = decoder->GetBuffer();
+                        nextBuffer     = decoder->GetBuffer();
                         nextBufferSize = decoder->GetBufferSize();
                         decoder->LoadNext();
                     }

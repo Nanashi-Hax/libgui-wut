@@ -23,16 +23,16 @@
  *
  * for WiiXplorer 2010
  ***************************************************************************/
-#include <string.h>
-#include <gui/sounds/WavDecoder.hpp>
 #include "fs/CFile.hpp"
 #include "utils/utils.h"
+#include <gui/sounds/WavDecoder.hpp>
+#include <string.h>
 
 WavDecoder::WavDecoder(const char *filepath)
-        : SoundDecoder(filepath) {
-    SoundType = SOUND_WAV;
+    : SoundDecoder(filepath) {
+    SoundType  = SOUND_WAV;
     SampleRate = 48000;
-    Format = CHANNELS_STEREO | FORMAT_PCM_16_BIT;
+    Format     = CHANNELS_STEREO | FORMAT_PCM_16_BIT;
 
     if (!file_fd) {
         return;
@@ -42,10 +42,10 @@ WavDecoder::WavDecoder(const char *filepath)
 }
 
 WavDecoder::WavDecoder(const uint8_t *snd, int32_t len)
-        : SoundDecoder(snd, len) {
-    SoundType = SOUND_WAV;
+    : SoundDecoder(snd, len) {
+    SoundType  = SOUND_WAV;
     SampleRate = 48000;
-    Format = CHANNELS_STEREO | FORMAT_PCM_16_BIT;
+    Format     = CHANNELS_STEREO | FORMAT_PCM_16_BIT;
 
     if (!file_fd) {
         return;
@@ -94,8 +94,8 @@ void WavDecoder::OpenFile() {
     }
 
     DataOffset += 8;
-    DataSize = le32(DataChunk.size);
-    Is16Bit = (le16(FmtChunk.bps) == 16);
+    DataSize   = le32(DataChunk.size);
+    Is16Bit    = (le16(FmtChunk.bps) == 16);
     SampleRate = le32(FmtChunk.freq);
 
     if (le16(FmtChunk.channels) == 1 && le16(FmtChunk.bps) == 8 && le16(FmtChunk.alignment) <= 1) {

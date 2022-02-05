@@ -14,35 +14,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
+#include "memory.h"
+#include <coreinit/memexpheap.h>
+#include <coreinit/memfrmheap.h>
+#include <coreinit/memheap.h>
 #include <malloc.h>
 #include <string.h>
-#include <coreinit/memheap.h>
-#include <coreinit/memfrmheap.h>
-#include <coreinit/memexpheap.h>
-#include "memory.h"
 
-#define MEMORY_ARENA_1          0
-#define MEMORY_ARENA_2          1
-#define MEMORY_ARENA_3          2
-#define MEMORY_ARENA_4          3
-#define MEMORY_ARENA_5          4
-#define MEMORY_ARENA_6          5
-#define MEMORY_ARENA_7          6
-#define MEMORY_ARENA_8          7
-#define MEMORY_ARENA_FG_BUCKET  8
+#define MEMORY_ARENA_1         0
+#define MEMORY_ARENA_2         1
+#define MEMORY_ARENA_3         2
+#define MEMORY_ARENA_4         3
+#define MEMORY_ARENA_5         4
+#define MEMORY_ARENA_6         5
+#define MEMORY_ARENA_7         6
+#define MEMORY_ARENA_8         7
+#define MEMORY_ARENA_FG_BUCKET 8
 
 //!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //! Memory functions
 //! This is the only place where those are needed so lets keep them more or less private
 //!----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-static MEMHeapHandle mem1_heap = NULL;
+static MEMHeapHandle mem1_heap   = NULL;
 static MEMHeapHandle bucket_heap = NULL;
 
 void libgui_memoryInitialize(void) {
     if (!mem1_heap) {
         MEMHeapHandle mem1_heap_handle = MEMGetBaseHeapHandle(MEMORY_ARENA_1);
         uint32_t mem1_allocatable_size = MEMGetAllocatableSizeForFrmHeapEx(mem1_heap_handle, 4);
-        void *mem1_memory = MEMAllocFromFrmHeapEx(mem1_heap_handle, mem1_allocatable_size, 4);
+        void *mem1_memory              = MEMAllocFromFrmHeapEx(mem1_heap_handle, mem1_allocatable_size, 4);
         if (mem1_memory)
             mem1_heap = MEMCreateExpHeapEx(mem1_memory, mem1_allocatable_size, 0);
     }
@@ -50,7 +50,7 @@ void libgui_memoryInitialize(void) {
     if (!bucket_heap) {
         MEMHeapHandle bucket_heap_handle = MEMGetBaseHeapHandle(MEMORY_ARENA_FG_BUCKET);
         uint32_t bucket_allocatable_size = MEMGetAllocatableSizeForFrmHeapEx(bucket_heap_handle, 4);
-        void *bucket_memory = MEMAllocFromFrmHeapEx(bucket_heap_handle, bucket_allocatable_size, 4);
+        void *bucket_memory              = MEMAllocFromFrmHeapEx(bucket_heap_handle, bucket_allocatable_size, 4);
         if (bucket_memory)
             bucket_heap = MEMCreateExpHeapEx(bucket_memory, bucket_allocatable_size, 0);
     }

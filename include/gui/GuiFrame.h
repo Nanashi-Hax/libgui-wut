@@ -17,10 +17,10 @@
 #ifndef GUI_FRAME_H_
 #define GUI_FRAME_H_
 
-#include <vector>
-#include <mutex>
 #include <gui/GuiElement.h>
 #include <gui/sigslot.h>
+#include <mutex>
+#include <vector>
 
 //!Allows GuiElements to be grouped together into a "window"
 class GuiFrame : public GuiElement {
@@ -116,9 +116,10 @@ public:
     //! Signals
     //! On Closing
     sigslot::signal1<GuiFrame *> closing;
+
 protected:
-    bool dim;   //! Enable/disable dim of a window only
-    GuiFrame *parent; //!< Parent Window
+    bool dim;                           //! Enable/disable dim of a window only
+    GuiFrame *parent;                   //!< Parent Window
     std::vector<GuiElement *> elements; //!< Contains all elements within the GuiFrame
     std::recursive_mutex mutex;
 };

@@ -17,7 +17,7 @@
 #include <gui/GuiElement.h>
 
 //! TODO remove this!
-static int32_t screenwidth = 1280;
+static int32_t screenwidth  = 1280;
 static int32_t screenheight = 720;
 
 /**
@@ -27,34 +27,34 @@ GuiElement::GuiElement() {
     xoffset = 0.0f;
     yoffset = 0.0f;
     zoffset = 0.0f;
-    width = 0.0f;
-    height = 0.0f;
-    alpha = 1.0f;
-    scaleX = 1.0f;
-    scaleY = 1.0f;
-    scaleZ = 1.0f;
+    width   = 0.0f;
+    height  = 0.0f;
+    alpha   = 1.0f;
+    scaleX  = 1.0f;
+    scaleY  = 1.0f;
+    scaleZ  = 1.0f;
     for (int32_t i = 0; i < 5; i++) {
         state[i] = STATE_DEFAULT;
     }
-    stateChan = -1;
-    parentElement = NULL;
-    rumble = true;
-    selectable = false;
-    clickable = false;
-    holdable = false;
+    stateChan                = -1;
+    parentElement            = NULL;
+    rumble                   = true;
+    selectable               = false;
+    clickable                = false;
+    holdable                 = false;
     drawOverOnlyWhenSelected = false;
-    visible = true;
-    yoffsetDyn = 0;
-    xoffsetDyn = 0;
-    alphaDyn = -1;
-    scaleDyn = 1;
-    effects = EFFECT_NONE;
-    effectAmount = 0;
-    effectTarget = 0;
-    effectsOver = EFFECT_NONE;
-    effectAmountOver = 0;
-    effectTargetOver = 0;
-    angle = 0.0f;
+    visible                  = true;
+    yoffsetDyn               = 0;
+    xoffsetDyn               = 0;
+    alphaDyn                 = -1;
+    scaleDyn                 = 1;
+    effects                  = EFFECT_NONE;
+    effectAmount             = 0;
+    effectTarget             = 0;
+    effectsOver              = EFFECT_NONE;
+    effectAmountOver         = 0;
+    effectTargetOver         = 0;
+    angle                    = 0.0f;
 
     // default alignment - align to top left
     alignment = (ALIGN_CENTER | ALIGN_MIDDLE);
@@ -66,13 +66,13 @@ GuiElement::GuiElement() {
  * @return Left position in pixel.
  */
 float GuiElement::getLeft() {
-    float pWidth = 0;
-    float pLeft = 0;
+    float pWidth  = 0;
+    float pLeft   = 0;
     float pScaleX = 1.0f;
 
     if (parentElement) {
-        pWidth = parentElement->getWidth();
-        pLeft = parentElement->getLeft();
+        pWidth  = parentElement->getWidth();
+        pLeft   = parentElement->getLeft();
         pScaleX = parentElement->getScaleX();
     }
 
@@ -97,12 +97,12 @@ float GuiElement::getLeft() {
  */
 float GuiElement::getTop() {
     float pHeight = 0;
-    float pTop = 0;
+    float pTop    = 0;
     float pScaleY = 1.0f;
 
     if (parentElement) {
         pHeight = parentElement->getHeight();
-        pTop = parentElement->getTop();
+        pTop    = parentElement->getTop();
         pScaleY = parentElement->getScaleY();
     }
 
@@ -170,14 +170,14 @@ void GuiElement::setEffectOnOver(int32_t e, int32_t a, int32_t t) {
 }
 
 void GuiElement::resetEffects() {
-    yoffsetDyn = 0;
-    xoffsetDyn = 0;
-    alphaDyn = -1;
-    scaleDyn = 1;
-    effects = EFFECT_NONE;
-    effectAmount = 0;
-    effectTarget = 0;
-    effectsOver = EFFECT_NONE;
+    yoffsetDyn       = 0;
+    xoffsetDyn       = 0;
+    alphaDyn         = -1;
+    scaleDyn         = 1;
+    effects          = EFFECT_NONE;
+    effectAmount     = 0;
+    effectTarget     = 0;
+    effectsOver      = EFFECT_NONE;
     effectAmountOver = 0;
     effectTargetOver = 0;
 }
@@ -194,7 +194,7 @@ void GuiElement::updateEffects() {
 
                 if (xoffsetDyn >= 0) {
                     xoffsetDyn = 0;
-                    effects = 0;
+                    effects    = 0;
                     effectFinished(this);
                 }
             } else if (effects & EFFECT_SLIDE_RIGHT) {
@@ -202,7 +202,7 @@ void GuiElement::updateEffects() {
 
                 if (xoffsetDyn <= 0) {
                     xoffsetDyn = 0;
-                    effects = 0;
+                    effects    = 0;
                     effectFinished(this);
                 }
             } else if (effects & EFFECT_SLIDE_TOP) {
@@ -210,7 +210,7 @@ void GuiElement::updateEffects() {
 
                 if (yoffsetDyn >= 0) {
                     yoffsetDyn = 0;
-                    effects = 0;
+                    effects    = 0;
                     effectFinished(this);
                 }
             } else if (effects & EFFECT_SLIDE_BOTTOM) {
@@ -218,7 +218,7 @@ void GuiElement::updateEffects() {
 
                 if (yoffsetDyn <= 0) {
                     yoffsetDyn = 0;
-                    effects = 0;
+                    effects    = 0;
                     effectFinished(this);
                 }
             }
@@ -270,20 +270,19 @@ void GuiElement::updateEffects() {
 
         if (effectAmount < 0 && alphaDyn <= 0) {
             alphaDyn = 0;
-            effects = 0; // shut off effect
+            effects  = 0; // shut off effect
             effectFinished(this);
         } else if (effectAmount > 0 && alphaDyn >= alpha) {
             alphaDyn = alpha;
-            effects = 0; // shut off effect
+            effects  = 0; // shut off effect
             effectFinished(this);
         }
     } else if (effects & EFFECT_SCALE) {
         scaleDyn += effectAmount * 0.01f;
 
-        if ((effectAmount < 0 && scaleDyn <= (effectTarget * 0.01f))
-            || (effectAmount > 0 && scaleDyn >= (effectTarget * 0.01f))) {
+        if ((effectAmount < 0 && scaleDyn <= (effectTarget * 0.01f)) || (effectAmount > 0 && scaleDyn >= (effectTarget * 0.01f))) {
             scaleDyn = effectTarget * 0.01f;
-            effects = 0; // shut off effect
+            effects  = 0; // shut off effect
             effectFinished(this);
         }
     }

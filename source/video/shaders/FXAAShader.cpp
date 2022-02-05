@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
+#include <gui/video/shaders/FXAAShader.h>
 #include <malloc.h>
 #include <string.h>
-#include <gui/video/shaders/FXAAShader.h>
 
 static const uint32_t cpVertexShaderProgram[] = {
         0x00000000, 0x00008009, 0x20000000, 0x000004a0,
@@ -36,8 +36,7 @@ static const uint32_t cpVertexShaderProgram[] = {
         0x00000000, 0x00000000, 0x00000000, 0x00000000,
         0x00000000, 0x00000000, 0x00000000, 0x00000000,
         0xfd001f80, 0x900c2060, 0x0000803f, 0x00000000,
-        0xc1a229f5, 0xd0eddc33, 0x426618fd, 0x8509cfe7
-};
+        0xc1a229f5, 0xd0eddc33, 0x426618fd, 0x8509cfe7};
 
 static const uint32_t cpVertexShaderRegs[] = {
         0x00000102, 0x00000000, 0x00000000, 0x00000001,
@@ -52,8 +51,7 @@ static const uint32_t cpVertexShaderRegs[] = {
         0x000000ff, 0x000000ff, 0x000000ff, 0x000000ff,
         0x000000ff, 0x000000ff, 0x000000ff, 0x000000ff,
         0x000000ff, 0x000000ff, 0x000000ff, 0x000000ff,
-        0x000000ff, 0x00000000, 0x0000000e, 0x00000010
-};
+        0x000000ff, 0x00000000, 0x0000000e, 0x00000010};
 
 static const uint32_t cpPixelShaderProgram[] = {
         0x20000000, 0x00003ca0, 0xa0000000, 0x000c8080,
@@ -145,8 +143,7 @@ static const uint32_t cpPixelShaderProgram[] = {
         0x10000400, 0x04101df0, 0x00008010, 0xecdfea0d,
         0x10000500, 0x05101df0, 0x00000011, 0xecdfea0d,
         0x10000100, 0x01101df0, 0x00008010, 0xecdfea0d,
-        0xfe2e963a, 0x0269a9a3, 0x38f88096, 0x400cf48b
-};
+        0xfe2e963a, 0x0269a9a3, 0x38f88096, 0x400cf48b};
 static const uint32_t cpPixelShaderRegs[] = {
         0x00000007, 0x00000002, 0x04000101, 0x00000000,
         0x00000001, 0x00000100, 0x00000000, 0x00000000,
@@ -158,37 +155,32 @@ static const uint32_t cpPixelShaderRegs[] = {
         0x00000000, 0x00000000, 0x00000000, 0x00000000,
         0x00000000, 0x00000000, 0x00000000, 0x00000000,
         0x00000000, 0x0000000f, 0x00000001, 0x00000010,
-        0x00000000
-};
+        0x00000000};
 
 FXAAShader *FXAAShader::shaderInstance = NULL;
 
 FXAAShader::FXAAShader()
-        : vertexShader(cuAttributeCount) {
+    : vertexShader(cuAttributeCount) {
     //! create pixel shader
     pixelShader.setProgram(cpPixelShaderProgram, sizeof(cpPixelShaderProgram), cpPixelShaderRegs, sizeof(cpPixelShaderRegs));
 
     resolutionLocation = 0;
-    pixelShader.addUniformVar((GX2UniformVar) {
-            "unf_resolution", GX2_SHADER_VAR_TYPE_FLOAT2, 1, resolutionLocation, -1
-    });
+    pixelShader.addUniformVar((GX2UniformVar){
+            "unf_resolution", GX2_SHADER_VAR_TYPE_FLOAT2, 1, resolutionLocation, -1});
 
     samplerLocation = 0;
-    pixelShader.addSamplerVar((GX2SamplerVar) {
-            "sampl_texture", GX2_SAMPLER_VAR_TYPE_SAMPLER_2D, samplerLocation
-    });
+    pixelShader.addSamplerVar((GX2SamplerVar){
+            "sampl_texture", GX2_SAMPLER_VAR_TYPE_SAMPLER_2D, samplerLocation});
 
     //! create vertex shader
     vertexShader.setProgram(cpVertexShaderProgram, sizeof(cpVertexShaderProgram), cpVertexShaderRegs, sizeof(cpVertexShaderRegs));
 
     positionLocation = 0;
     texCoordLocation = 1;
-    vertexShader.addAttribVar((GX2AttribVar) {
-            "attr_position", GX2_SHADER_VAR_TYPE_FLOAT3, 0, positionLocation
-    });
-    vertexShader.addAttribVar((GX2AttribVar) {
-            "attr_texture_coord", GX2_SHADER_VAR_TYPE_FLOAT2, 0, texCoordLocation
-    });
+    vertexShader.addAttribVar((GX2AttribVar){
+            "attr_position", GX2_SHADER_VAR_TYPE_FLOAT3, 0, positionLocation});
+    vertexShader.addAttribVar((GX2AttribVar){
+            "attr_texture_coord", GX2_SHADER_VAR_TYPE_FLOAT2, 0, texCoordLocation});
 
     //! setup attribute streams
     GX2InitAttribStream(vertexShader.getAttributeBuffer(0), positionLocation, 0, 0, GX2_ATTRIB_FORMAT_FLOAT_32_32_32);
@@ -198,11 +190,11 @@ FXAAShader::FXAAShader()
     fetchShader = new FetchShader(vertexShader.getAttributeBuffer(), vertexShader.getAttributesCount());
 
     //! model vertex has to be align and cannot be in unknown regions for GX2 like 0xBCAE1000
-    posVtxs = (float *) memalign(GX2_VERTEX_BUFFER_ALIGNMENT, ciPositionVtxsSize);
+    posVtxs   = (float *) memalign(GX2_VERTEX_BUFFER_ALIGNMENT, ciPositionVtxsSize);
     texCoords = (float *) memalign(GX2_VERTEX_BUFFER_ALIGNMENT, ciTexCoordsVtxsSize);
 
     //! position vertex structure and texture coordinate vertex structure
-    int32_t i = 0;
+    int32_t i    = 0;
     posVtxs[i++] = -1.0f;
     posVtxs[i++] = -1.0f;
     posVtxs[i++] = 0.0f;
@@ -217,7 +209,7 @@ FXAAShader::FXAAShader()
     posVtxs[i++] = 0.0f;
     GX2Invalidate(GX2_INVALIDATE_MODE_CPU_ATTRIBUTE_BUFFER, posVtxs, ciPositionVtxsSize);
 
-    i = 0;
+    i              = 0;
     texCoords[i++] = 0.0f;
     texCoords[i++] = 1.0f;
     texCoords[i++] = 1.0f;
