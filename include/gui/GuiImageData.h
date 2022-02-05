@@ -31,6 +31,9 @@ public:
     //!\param imgSize The image size
     GuiImageData(const uint8_t *img, int32_t imgSize, GX2TexClampMode textureClamp = GX2_TEX_CLAMP_MODE_CLAMP, GX2SurfaceFormat textureFormat = GX2_SURFACE_FORMAT_UNORM_R8_G8_B8_A8);
 
+    //!\param path Image path
+    GuiImageData(const char *path, GX2TexClampMode textureClamp, GX2SurfaceFormat textureFormat);
+
     //!Destructor
     virtual ~GuiImageData();
 
@@ -38,6 +41,10 @@ public:
     //!\param img Image data
     //!\param imgSize The image size
     void loadImage(const uint8_t *img, int32_t imgSize, GX2TexClampMode textureClamp = GX2_TEX_CLAMP_MODE_CLAMP, GX2SurfaceFormat textureFormat = GX2_SURFACE_FORMAT_UNORM_R8_G8_B8_A8);
+
+    //!Load image from file
+    //!\param path Image path
+    void loadImageFromFile(const char *path, GX2TexClampMode textureClamp, GX2SurfaceFormat textureFormat);
 
     //! getter functions
     virtual const GX2Texture *getTexture() const {

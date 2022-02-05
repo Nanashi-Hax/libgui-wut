@@ -14,10 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ****************************************************************************/
+
 #include <gui/GuiImageData.h>
 #include <gui/memory.h>
 #include <malloc.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <string.h>
 
 /**
@@ -36,6 +38,16 @@ GuiImageData::GuiImageData(const uint8_t *img, int32_t imgSize, GX2TexClampMode 
     texture = NULL;
     sampler = NULL;
     loadImage(img, imgSize, textureClamp, textureFormat);
+}
+
+/**
+ * Constructor for the GuiImageData class.
+ */
+
+GuiImageData::GuiImageData(const char *path, GX2TexClampMode textureClamp, GX2SurfaceFormat textureFormat) {
+    texture = NULL;
+    sampler = NULL;
+    loadImageFromFile(path, textureClamp, textureFormat);
 }
 
 /**
@@ -67,6 +79,24 @@ void GuiImageData::releaseData(void) {
     if (sampler) {
         delete sampler;
         sampler = NULL;
+    }
+}
+
+void GuiImageData::loadImageFromFile(const char *path, GX2TexClampMode textureClamp, GX2SurfaceFormat textureFormat) {
+    FILE *file = fopen(path, "rb");
+    if (file) {
+        off_t i = ftello(file);
+        if (fseek(file, 0, SEEK_END) == 0) {
+            off_t fileSize = ftello(file);
+            if (fileSize > 8) {
+                fseeko(file, i, SEEK_SET);
+                uint8_t buffer[fileSize];
+                if (fread(buffer, 1, fileSize, file) == fileSize) {
+                    loadImage(buffer, fileSize, textureClamp, textureFormat);
+                }
+            }
+        }
+        fclose(file);
     }
 }
 
