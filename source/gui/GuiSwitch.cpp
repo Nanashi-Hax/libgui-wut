@@ -63,6 +63,10 @@ void GuiSwitch::setImageHighlighted(GuiImage *img) {
 }
 
 void GuiSwitch::draw(CVideo *v) {
+    if (!this->isVisible()) {
+        return;
+    }
+
     GuiToggle::draw(v);
     if (getValue()) {
         if (onImg != NULL) {
