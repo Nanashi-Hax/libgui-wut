@@ -187,13 +187,13 @@ public:
     }
 
     //!Gets the current width of the element. Does not currently consider the scale
-    //!\return width
+    //!eturn width
     virtual float getWidth() {
         return width;
     };
 
     //!Gets the height of the element. Does not currently consider the scale
-    //!\return height
+    //!eturn height
     virtual float getHeight() {
         return height;
     }

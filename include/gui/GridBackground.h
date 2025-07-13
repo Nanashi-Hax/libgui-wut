@@ -5,6 +5,8 @@
 
 class GridBackground : public GuiImage {
 public:
+    using GuiImage::draw;
+
     GridBackground(GuiImageData *imgData);
 
     virtual ~GridBackground();

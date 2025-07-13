@@ -17,7 +17,6 @@
 #ifndef __CVIDEO_H_
 #define __CVIDEO_H_
 
-#include <gui/gx2_ext.h>
 #include <gx2/clear.h>
 #include <gx2/context.h>
 #include <gx2/display.h>
@@ -29,6 +28,7 @@
 #include <gx2/swap.h>
 
 #include <gui/video/shaders/Shader.h>
+#include <gui/gx2_ext.h>
 
 class CVideo {
 public:

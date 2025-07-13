@@ -42,7 +42,6 @@ INCLUDES	:=	source \
 #---------------------------------------------------------------------------------
 CFLAGS	:=	-Wall -Werror -save-temps \
 			-ffunction-sections -fdata-sections \
-			-Wno-overloaded-virtual \
 			$(MACHDEP) \
 			$(BUILD_CFLAGS)
 

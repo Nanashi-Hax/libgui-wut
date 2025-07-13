@@ -1,6 +1,10 @@
 #ifndef __GX2_EXTENSION_H
 #define __GX2_EXTENSION_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <gx2/draw.h>
 #include <gx2/enum.h>
 #include <gx2/mem.h>
@@ -9,10 +13,6 @@
 #include <gx2/shaders.h>
 #include <gx2/surface.h>
 #include <gx2/texture.h>
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #define GX2_AA_BUFFER_CLEAR_VALUE 0xCC
 

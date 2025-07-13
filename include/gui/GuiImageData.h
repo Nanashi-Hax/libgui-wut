@@ -57,21 +57,21 @@ public:
 
     //!Gets the image width
     //!\return image width
-    int32_t getWidth() const {
+    virtual float getWidth() {
         if (texture) {
-            return texture->surface.width;
+            return (float)texture->surface.width;
         } else {
-            return 0;
+            return 0.0f;
         }
     };
 
     //!Gets the image height
     //!\return image height
-    int32_t getHeight() const {
+    virtual float getHeight() {
         if (texture) {
-            return texture->surface.height;
+            return (float)texture->surface.height;
         } else {
-            return 0;
+            return 0.0f;
         }
     };
 
